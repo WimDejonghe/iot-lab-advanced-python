@@ -67,5 +67,3 @@ Opdracht: 7-segment display aansturen met een methode MET parameters
 </ul>
 </p>
 </div>
-
---------tot hier en nog niet verder------------
