@@ -7,43 +7,52 @@ mathjax:
 
 # Methode met meegeefparameters.
 
-In de volgende figuur is de werking uitgelegd van een methode met parameters. Links van de figuur is de werking aan de hand van een flowchart uitgelegd en rechts de werking met de code in C.
+In de volgende code is de werking uitgelegd van een methode met parameters.
+
+```python
+from machine import Pin
+from time import sleep
+#setup : declaratie van de pinnen
+SEG_A = Pin(21, Pin.OUT)
+SEG_B = Pin(14, Pin.OUT)
+SEG_C = Pin(32, Pin.OUT)
+SEG_D = Pin(15, Pin.OUT)
+SEG_E = Pin(33, Pin.OUT)
+SEG_F = Pin(27, Pin.OUT)
+SEG_G = Pin(12, Pin.OUT)
+
+def ZevenSegmentDisplatMetParameters(pCijfer):
+    #eigen methode met een parameter
+    #code om een 0 te tonen
+    if pCijfer == 0:
+        SEG_A.value(1)
+        SEG_B.value(1)
+        SEG_C.value(1)
+        SEG_D.value(1)
+        SEG_E.value(1)
+        SEG_F.value(1)
+        SEG_G.value(0)
+        sleep(1)
+    
+    ############## enz
+#oneindige loop methode 
+while True:
+    for x in range(9):
+        #aanroepen van de eigen methode
+        #en het meegegeven van een parameter
+        ZevenSegmentDisplayMetParameters(x)
+```
 
 
-![Werking van een methode met parameters](./images/fc1.png)
+In het hoofdprogramma (oneindige loop) wordt een *for-loop* gemaakt die opeenvolgend de getallen 0 tem 9 zal genereren. Dit getal komt in de variabele x te zitten. De eigen methode zal telkens worden aangeroepen waarbij het getal (die in de x-variabele zit) wordt meegegeven. Door dit doorgeefmechanisme wordt de inhoud van x doorgegeven aan de parameter (wat ook een variabele is met de naam pCijfer). x geeft dus zijn waarde door aan pCijfer.  
 
-Voor de methoden moeten in C de functies gedeclareerd worden (1). We zien dat in de C-code het eerste woordje void is. Void betekent leeg en wil zeggen dat die methode niets teruggeeft. Tussen de haakjes ‘()’ staan er twee parameters. Dit wil zeggen dat er twee parameters worden meegegeven aan die methode die in de methode gebruikt worden. Dit kan ook één parameter of meer dan twee parameters zijn.
+Binnen de eigen methoide zal pCijfer worden geanaliseerd en wordt er gekeken welke waarde er in die variabele zit. Op basis van die waarde zullen de respectievelijke zevensegment pinnen wworden aangestuurd. Tussen de haakjes ‘()’ staan er maar één parameter. Dit wil zeggen dat er maar 1 waarde zal worden meegegeven aan die methode die in de methode gebruikt zal worden. Dit kunnen er ook meerdere zijn.
 
-Het tweede grote deel is de loop-routine (2). Dit is waar er allerlei bewerkingen worden uitgevoerd. In de loop-methode wordt de methode ‘MethodeMeegeefParameters’ aangeroepen. Het aanroepen gebeurt in een rechthoek met voor- en achteraan nog twee extra verticale lijnen. Bij de aanroep worden de parameters meegegeven. Bij de aanroep wordt er gesprongen naar de methode en wordt deze uitgevoerd (3).
+Het tweede grote deel is de loop-routine. Dit is waar er allerlei bewerkingen worden uitgevoerd. In de loop-methode wordt de methode ***ZevenSegmentDisplayMetParameters(x)*** aangeroepen. Bij de aanroep worden de parameters meegegeven. Bij de aanroep wordt er gesprongen naar de methode en wordt deze uitgevoerd.
 
-De methode zal allerlei code uitvoeren en zal in de verwerking de meegegeven parameters gebruiken. Als het einde van de methode bereikt is, zal er teruggegaan worden naar de regel code net na de aanroep van de methode (4). De code in de loop-methode zal verder worden uitgevoerd.
+De methode zal allerlei code uitvoeren en zal in de verwerking de meegegeven parameters gebruiken. Als het einde van de methode bereikt is, zal er teruggegaan worden naar de regel code net na de aanroep van de methode. De code in de loop-methode zal verder worden uitgevoerd.
 
-## Voorbeeldprogramma methode zonder parameters
-
-In deze paragraaf zal er een voorbeeldprogramma besproken worden dat gebruik maakt van een
-methode met meegeefparameters.
-Het programma laat een 7-segment display aftellen van 9 naar 0. Tussen ieder cijfer is er een delay van één seconde. De voorgaande cyclus wordt in een oneindige lus herhaald.
-
-### Flowchart
-
-De flowchart bestaat uit 4 delen die zijn weergegeven in de volgende figuren. In het eerste deel worden alle declaraties gedaan (1). Daar gebeurt de declaratie van de methode en van de uitgangen die de 7-segment display aansturen.
-
-Het tweede deel is de setup-methode waar alle uitgangen ingesteld worden die het 7-segment display aansturen (2).
-
-Het derde deel is de loop-methode waar de methode 'ZevenSegMetParam(pGetal)' in een For-lus wordt aangeroepen om zo de getallen 9 dalend naar 0 aan de methode mee te geven (3). Deze cyclus wordt voortdurend herhaald.
-
-![Methode met meegeefparameter deel 1.](./images/fc2.png)
-
-Het vierde deel is de methode zelf (4). In de methode wordt er gekeken welk getal er via de parameter wordt meegegeven en dit getal wordt op de display getoond.
-
-![Methode met meegeefparameter deel 2.](./images/fc3.png)
-
-### Programma
-
-Het programma is hieronder afgebeeld. Bij (1) is de declaratie van de methode gedaan. In punt (2) wordt de methode aangeroepen waarbij dat er een parameter wordt meegegeven en in (3) staat de eigenlijke methode.
-
-![Het programma ZevenSegMetParam.](./images/code1.png)
-![Het programma ZevenSegMetParam.](./images/code2.png)
+Na het beëindigen van de for-loop in de oneindige-loop zal de for-loop opnieuw herbeginnen.
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
@@ -58,3 +67,5 @@ Opdracht: 7-segment display aansturen met een methode MET parameters
 </ul>
 </p>
 </div>
+
+--------tot hier en nog niet verder------------

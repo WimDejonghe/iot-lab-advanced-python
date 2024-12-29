@@ -18,8 +18,8 @@ module.exports = {
     navbar: [
 
       { text: 'Toledo', link: 'https://toledo.kuleuven.be/portal' },
-      { text: 'Report Issue', link: 'https://github.com/WimDejonghe/iot-lab-advanced/issues' },
-      { text: 'Organization', link: 'https://github.com/WimDejonghe/iot-lab-advanced' }
+      { text: 'Report Issue', link: 'https://github.com/WimDejonghe/iot-lab-advanced-python/issues' },
+      { text: 'Organization', link: 'https://github.com/WimDejonghe/iot-lab-advanced-python' }
     ],
     sidebar: [
       {
@@ -130,7 +130,7 @@ module.exports = {
      
     ],
     sidebarDepth: 1,
-    repo: 'WimDejonghe/iot-lab-advanced',
+    repo: 'WimDejonghe/iot-lab-advanced-python',
     docsDir: 'docs',
     docsBranch: 'main'
   }),
