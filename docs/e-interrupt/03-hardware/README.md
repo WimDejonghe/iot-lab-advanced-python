@@ -25,52 +25,59 @@ Wij gebruiken de Huzzah32 feather van Adafruit zoals in volgende figuur is weerg
 Enkel de pinnen met de gele labels, zoals in vorige figuur, kunnen als digitale ingangen gebruikt worden. Behalve pin 12 is niet aan te raden om te gebruiken als ingang omdat deze standaard is voorzien van een pull-down weerstand en deze mag bij het booten (=opstarten) niet beïnvloed worden. Het maximum aantal is dus 20. 
 
 :::tip
-Alle pinnen die als ingangen gebruikt kunnen worden kunnen voorzien worden van een interrupt.
+Alle pinnen die als ingangen gebruikt kunnen worden, kunnen voorzien worden van een interrupt.
 :::
 
-## Instellen van de pin als ingang.
+## Code.
 
-Als men een IO-pin als ingang wil gebruiken moet men de pinMode van de IO-pin instellen als ingang zoals in vorige figuur. Het is het gemakkelijkst om hier de gele pinbenaming te gebruiken zoals in vorige figuur.
+```python
+from machine import Pin
+from time import sleep
 
-De pinMode van de IO-pin stel je in bij opstart van de controller en dit gebeurt in de setup-methode. Aan de methode pinMode worden er twee parameters meegegeven tussen haakjes. De eerste parameter is de IO-pin waarover het gaat en de tweede parameter is hoe deze ingesteld moet worden, hier is dit als ingang. De instructie wordt afgesloten met een puntkomma.
+sw1 = Pin(39, Pin.IN)
+sw2 = Pin(34, Pin.IN)
 
-![Instellen van een IO-pin als ingang.](./images/code1.png)
+led1 = Pin(21, Pin.OUT)
+led8 = Pin(13, Pin.OUT)
 
-Een goede programmeur zal een duidelijkere naam willen voor de uitgang en zo weinig mogelijk gebruik maken van de IO-nummers. Daarom gaat men gebruik maken van constanten. De constanten declareert men voor de setup routine in het begin van het programma.
-Op lijn 3 is te zien dat de constante de naam ‘DRUKKNOP’ heeft en dat er 21 wordt toegewezen. ‘# define’ geeft weer dat DRUKKNOP gelijk staat aan 21. In de code wordt bij het compileren overal DRUKKNOP vervangen door 21.
+def callback(p):
+    print('pin change', p)
+    led1.value(not led1.value())
+    
+sw1.irq(trigger=Pin.IRQ_FALLING, handler=callback)
+sw2.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=callback)
 
-![Het declareren van een constante.](./images/code2.png)
+while True:
+  led8.value(not led8.value())
+  sleep(3)
+```
 
-Natuurlijk kan er ook gebruik gemaakt worden van de interne- pull-up of pull-down weerstand. Dan is de tweede parameter gelijk aan INPUT_PULLUP of INPUT_PULLDOWN. In het labo wordt steeds gebruik gemaakt van een externe pullup waarstand en moet dus deze optie niet geprogrammeerd worden.
+In de code is te zien dat de ingangen sw1 en sw2 gedeclareerd worden. Led1 en 8 worden dan weer gebruikt als uitgang.
 
-## Het koppelen van een interruptroutine aan een ingang.
+## ISR
+De `callback` methode is de *interrupt service routine* en wordt aangeroepen als er een interrupt zich voordoet op de sw1&2 ingangen. Binnen die methode wordt Led8 getoggled en wordt een parameter `p` die wordt meegegeven geprint. Deze bevat de Pin(nr) van de opwekker van de interrupt.
 
-Het volgend dat moet gebeuren is de methode attachInterrupt uitvoeren die de knop koppelt aan een interruptmethode.
+## Koppeling van de Pin-input aan een ISR.
 
-![Het koppelen van een interruptroutine aan een ingang.](./images/code3.png)
+Met het statement `Pin.irq` worden er enkele parameters ingesteld met betrekking tot de interrupt. Met de trigger parameter wordt ingesteld wanneer er een interrupt wordt gegenereerd. Bij sw1 is dat bij een dalende flank op de pin. Dalende flank wil zeggen dat de spannng van 3.3V naar 0V gaat. Bij sw2 is dit op zowel de dalende flank als op de stijgende flank. Met de handler parameter wordt de naam van de ISR-methode (functie) opgegeven.
 
-De attachInterrupt methode heeft 3 parameters. De eerste parameter is de drukknop waaraan een interruptpin moet gekoppeld worden. In het voorbeeld is dit pin 13 die de naam DRUKKNOP heeft.
-De tweede parameter is de naam van de methode (ISR) die moet uitgevoerd worden. In het voorbeeld is dit ToggleLed.
-De derde en laatste parameter is wanneer de interruptmethode moet uitgevoerd worden. In het voorbeeld is dit de dalende flank. 
+:::tip
+Bepaal zelf wat een dalende flank versus stijgende flank is bij een drukknop met een actief lage werking (pull-up R), teken het schema nog eens van die opstelling!!!
+:::
 
-De derde parameter kan de volgende waarden aannemen:
-> - LOW : Triggeren van de interrupt wanneer de pin laag is.
-> - HIGH Triggeren van de interrupt wanneer de pin hoog is.
-> - CHANGE Triggeren van de interrupt wanneer de pin wijzigt van toestand.
-> - FALLING Triggeren van de interrupt bij een dalende flank van de ingang.
-> - RISING Triggeren van de interrupt bij een stijgende flank van de ingang.
+> :bulb: **Tip:** Hier worden de twee interrupts verwezen naar dezelfde ISR. Dit is geen noodzaak. Iedere interrupt kan gerust zijn eigen ISR hebben.
 
-## De interruptroutine.
+## Hoofdloop
 
-Een voorbeeld van een interruptroutine (ISR) is weergegeven in de volgende figuur. De interruptroutine begint met ‘void IRAM_ATTR’ gevold door de naam van de routine. Aan een interruptroutine worden er geen parameters meegegeven.
+In de oneindige hoofdloop staat een eenvoudige routine die duidelijk is. Led8 wordt om de 3 seconden van toestand omgedraaid.
 
-De body en de code van de routine wordt geplaatst tussen accolades.
+:::warning
+Opmerkelijk is dat in de hoofdloop een sleep-commando staat. Nomaal kunnen er dan geen andere instructies worden uitgevoerd. Dit kan hier wel, test dit!!!! De sleep kan blijkbaar hier worden onderbroken door een interrupt. Probeer maar binnen de 3 sleep seconden eens de toetsen sw1 of 2 te activeren.
+:::
 
-![De interruptroutine.](./images/isr.png)
-
-## De ontkoppelen van een interruptroutine van een ingang.
-
-Als je in de code de interruptroutine niet meer wenst te gebruiken kan de je interruptroutine altijd ontkoppelen. Dit kan je doen door gebruik te maken van de detachInterrupt methode. Aan deze methode moet je de pin meegeven waarvan je de interrupt wil ontkoppelen.
-
-![Loskoppelen van een interrupt aan een ingang.](./images/isr2.png)
+De activatie parameter kan de volgende waarden aannemen:
+> - LOW_LEVEL : Triggeren van de interrupt wanneer de pin laag is.
+> - HIGH_LEVEL : Triggeren van de interrupt wanneer de pin hoog is.
+> - FALLING : Triggeren van de interrupt bij een dalende flank van de ingang.
+> - RISING : Triggeren van de interrupt bij een stijgende flank van de ingang.
 

@@ -3,28 +3,36 @@ mathjax:
   presets: '\def\lr#1#2#3{\left#1#2\right#3}'
 ---
 
-# Voorbeeld: Het toggelen van een led bij het indrukken van een drukknop
+# Voorbeeld: Het toggelen van twee leds met twee interrupts
 
-## Hardware
+```python
+from machine import Pin
+from time import sleep
 
-Bij de drukknop S1 wordt er gebruik gemaakt van een interne pull-up weerstand.
-De led en de voorschakelweerstand is al voorzien op de ESP32 feather van Adafruit en moet extern niet meer voorzien worden.
+sw1 = Pin(39, Pin.IN)
+sw2 = Pin(34, Pin.IN)
 
-![Schema van de opstelling.](./images/schema.png)
+led1 = Pin(21, Pin.OUT)
+led2 = Pin(14, Pin.OUT)
+led8 = Pin(13, Pin.OUT)
 
-## Flowchart
+def callback_sw1(p):
+    print('pin change', p)
+    led1.value(not led1.value())
+def callback_sw2(p):
+    print('pin change', p)
+    led2.value(not led2.value())
+    
+sw1.irq(trigger=Pin.IRQ_FALLING, handler=callback_sw1)
+sw2.irq(trigger=Pin.IRQ_RISING, handler=callback_sw2)
 
-In de volgende figuur is de flowchart voorgesteld. Bij de declaratie zeggen we dat we de naam LED gelijkgesteld is met 13 en dat DRUKKNOP met 21. Dit zijn constanten en stellen de overeenkomende IO-pinnen voor (1).
+while True:
+  led8.value(not led8.value())
+  sleep(3)
+```
 
-![Toggelen van een led bij het indrukken van een drukknop.](./images/fc.png)
+Hier worden twee Leds getoggled in twee afzonderlijke ISR van twee afzonderlijke interrupts.
 
-In de setup-methode (2) wordt er verteld dat de LED een uitgang is en dat DRUKKNOP een ingang is met een interne pull-up weerstand. We stellen de DRUKKNOP in als externe interrupt. De interruptroutine noemt ToggleLed en deze wordt aangesproken bij een dalende flank.
-
-Vervolgens gaat de microcontroller in een oneindige lus (3), namelijk de loop-methode waar de controller eigenlijk niets doet.
-
-Als de drukknop wordt ingedrukt dan komt er een dalende flank op het signaal en wordt de interruptroutine ToggleLed aangesproken (4), waar de toestand van de Led wordt geïnverteerd. Na het beëindigen van de interruptroutine ToggleLed wordt er teruggesprongen naar de loop-methode (3).
-
-## Software
-
-![Het programma om de led te laten toggelen als de drukknop wordt ingedrukt.](./images/code.png)
-
+:::info
+Bestudeer de code goed en realiseer dit.
+:::
