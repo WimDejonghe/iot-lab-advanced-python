@@ -6,8 +6,26 @@ mathjax:
 
 # Programma
 
-![Programma om een 7-segment display aan te sturen met BCD4511BE.](./images/code1.png)
-![Programma om een 7-segment display aan te sturen met BCD4511BE.](./images/code2.png)
+```python
+from machine import Pin
+from time import sleep
+
+BIT_0 = Pin(13, Pin.OUT)
+BIT_1 = Pin(27, Pin.OUT)
+BIT_2 = Pin(15, Pin.OUT)
+BIT_3 = Pin(14, Pin.OUT)
+
+
+def BCDTeller(pCijfer):
+  #vervolledig zelf deze methode
+  #om de output bits aan te sturen
+  
+        
+while True:
+    for x in range(10):
+        BCDTeller(x)
+        sleep(0.5)
+```
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">

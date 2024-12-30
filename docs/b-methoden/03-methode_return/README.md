@@ -3,7 +3,9 @@ mathjax:
   presets: '\def\lr#1#2#3{\left#1#2\right#3}'
 ---
 
-# Uitleg over de `return`-functie in Python
+# Methode met teruggeef waarde
+
+## Uitleg over de `return`-functie in Python
 
 In Python wordt de `return`-instructie gebruikt binnen een functie om een waarde terug te sturen naar de plek waar de functie werd aangeroepen. Dit maakt functies flexibel en herbruikbaar, omdat je het resultaat van de functie kunt gebruiken in andere delen van je code.
 

@@ -37,7 +37,7 @@ def ZevenSegmentDisplatMetParameters(pCijfer):
     ############## enz
 #oneindige loop methode 
 while True:
-    for x in range(9):
+    for x in range(??):
         #aanroepen van de eigen methode
         #en het meegegeven van een parameter
         ZevenSegmentDisplayMetParameters(x)
