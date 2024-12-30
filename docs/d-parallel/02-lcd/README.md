@@ -50,81 +50,107 @@ In het algemeen gebruiken we het LCD alleen in de schrijfmodus, dus verbinden we
 
 ![Hardware schema van de 2x16 LCD.](./images/schema.png)
 
-## Bibliotheek importeren en gebruiken
-
-Als je een bibliotheek wilt gebruiken in een programma maak je eerst een project aan zoals in de volgende figuur. Selecteer het icoon van PlatformIo (1), Klik vervolgens op ‘Home’ (2). Klik dan op ‘Nieuw project’ (3). Geef het project een naam (4), Selecteer het bord dat je wil gebruiken (5) en vul het juiste Framework (6). Klik als laatste op ‘Finisch’ (7) om het aanmaken te beëindigen.
-
-![Aanmaken van een nieuw project.](./images/bib.png)
-
-Vervolgens zoek je de bibliotheek die je wil gebruiken en voeg je hem toe aan het project zoials in de volgende figuur. Selecteer het PlatformIo-icoon (1) en klik op ‘Libraries’ (2). Vul de te zoeken bibliotheek in, in het zoekveld (3). Wij zoeken de bibliotheek ‘LiquidCrystal’. Klik op het zoeksymbool (4). Er komt een lijst tevoorschijn. Selecteer deze zoals afgebeeld in (5).
-
-![Zoeken van de te gebruiken bibliotheek.](./images/bib2.png)
-
-Klik vervolgens op ‘Add to Project’ (1) zoals in de volgende figuur.
-
-![Toevoegen van de bibliotheek.](./images/bib3.png)
-
-Selecteer het project (1) waar de gezochte bibliotheek moet toegevoegd worden en klik op ‘Add’ (2) zoals in volgende figuur.
-
-![Toevoegen van de bibliotheek.](./images/bib4.png)
-
-Klik je nu op de ‘platformio.ini’- file (1). Dan zie je dat er een lijn is toegevoegd (2) zoals in de volgende figuur.
-
-![Link tussen het project en de te gebruiken bibliotheek.](./images/code.png)
-
 ## Programma
 
-Het programma dat we gaan gebruiken is in de volgende figuur afgebeeld. Op lijn 6 en 7 zijn de gebruikte bibliotheken die het programma nodig heeft toegevoegd. Zonder deze twee lijnen zal de compiler de nodige gegevens niet vinden.
+Het programma maakt gebruik van enkele methoden. De naam van een methode verklaart hier en daar wel iets over de werking van die methode. Het is ook mogelijk om al die methoden in een afzonderljk bestand onder te brengen en dit bestand dan te importeren in het hoofdprogramma. Het is dan als het ware een bibliotheek. 
+
+:::warning
+De code komt niet overeen met de hardware (zie schema). Pas dus de code op de gepaste wijze aan, of wijzig de hardware opstelling.
+:::
 
 
-```cpp
-#include <Arduino.h>
-#include <Wire.h>
-#include <LiquidCrystal.h>
-
-LiquidCrystal lcd(14, 32, 33, 27, 12, 13 );//RS,E,D4,D5,D6,D7
-
-uint teller = 0;
-void setup()
-{
-  // put your setup code here, to run once:
-  Serial.begin(115200); // open the serial port at 115200 bps:
+```python
+import machine
+import utime
  
-  lcd.begin(16,2);
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("Hallo");
-  lcd.setCursor(0,1);
-  lcd.print("VIVES");
-  delay(3000);
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("VIVES");
-  Serial.print("Starting. ");
-}
-
-void loop()
-{
-  // put your main code here, to run repeatedly:
+rs = machine.Pin(13,machine.Pin.OUT)
+e = machine.Pin(12,machine.Pin.OUT)
+d4 = machine.Pin(14,machine.Pin.OUT)
+d5 = machine.Pin(27,machine.Pin.OUT)
+d6 = machine.Pin(26,machine.Pin.OUT)
+d7 = machine.Pin(25,machine.Pin.OUT)
  
-   
-    //lcd.print("tel:");
-    //lcd.print(millis() / 1000);
-    char buffer[10];
-    sprintf(buffer, "tel:%d", teller);
-    //Serial.println(buffer);
-    lcd.setCursor(0,1);
-    lcd.printf(buffer);
-    teller++;
-    delay(100);
- 
+def pulseE():
+    e.value(1)
+    utime.sleep_us(40)
+    e.value(0)
+    utime.sleep_us(40)
 
-}
+
+def longDelay(t):
+    utime.sleep_ms(t)
+
+def shortDelay(t):
+    utime.sleep_us(t)
+
+def send2LCD4(BinNum):
+    d4.value((BinNum & 0b00000001) >>0)
+    d5.value((BinNum & 0b00000010) >>1)
+    d6.value((BinNum & 0b00000100) >>2)
+    d7.value((BinNum & 0b00001000) >>3)
+    pulseE()
+def send2LCD8(BinNum):
+    d4.value((BinNum & 0b00010000) >>4)
+    d5.value((BinNum & 0b00100000) >>5)
+    d6.value((BinNum & 0b01000000) >>6)
+    d7.value((BinNum & 0b10000000) >>7)
+    pulseE()
+    d4.value((BinNum & 0b00000001) >> 0)
+    d5.value((BinNum & 0b00000010) >> 1)
+    d6.value((BinNum & 0b00000100) >> 2)
+    d7.value((BinNum & 0b00001000) >> 3)
+    pulseE()
+
+def setUpLCD():
+    rs.value(0)
+    send2LCD4(0b0011)#8 bit
+    send2LCD4(0b0011)#8 bit
+    send2LCD4(0b0011)#8 bit
+    send2LCD4(0b0010)#4 bit
+    send2LCD8(0b00101000)#4 bit,2 lines?,5*8 bots
+    send2LCD8(0b00001100)#lcd on, blink off, cursor off.
+    send2LCD8(0b00000110)#increment cursor, no display shift
+    send2LCD8(0b00000001)#clear screen
+    utime.sleep_ms(2)#clear screen needs a long delay
+
+def setCursor(line, pos):
+    b = 0
+    if line==1:
+        b=0
+    elif line==2:
+        b=40
+    returnHome()
+    for i in range(0, b+pos):
+        moveCursorRight()
+    
+def returnHome():
+    rs.value(0)
+    send2LCD8(0b00000010)
+    rs.value(1)
+    longDelay(2)
+
+def moveCursorRight():
+    rs.value(0)
+    send2LCD8(0b00010100)
+    rs.value(1)
+
+def displayString(row, col, input_string):
+    setCursor(row,col)
+    for x in input_string:
+        send2LCD8(ord(x))
+        utime.sleep_ms(100)
+ 
+setUpLCD()
+rs.value(1)
+for x in 'Hello World!':
+    send2LCD8(ord(x))
+    utime.sleep_ms(100)
+
+setCursor(1,1)
+displayString(2,0,"VIVES Kortrijk")
 ```
 
-## Flowchart
-
-![Flowchart om tekst op het LCD te tonen.](./images/fc.png)
+## Realiseer
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
