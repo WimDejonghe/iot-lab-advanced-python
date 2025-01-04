@@ -55,7 +55,7 @@ while True:
 In de code is te zien dat de ingangen sw1 en sw2 gedeclareerd worden. Led1 en 8 worden dan weer gebruikt als uitgang.
 
 ## ISR
-De `callback` methode is de *interrupt service routine* en wordt aangeroepen als er een interrupt zich voordoet op de sw1&2 ingangen. Binnen die methode wordt Led8 getoggled en wordt een parameter `p` die wordt meegegeven geprint. Deze bevat de Pin(nr) van de opwekker van de interrupt.
+De `callback` methode is de *interrupt service routine* en wordt aangeroepen als er een interrupt zich voordoet op de sw1&2 ingangen. Binnen die methode wordt Led8 getoggled en wordt een parameter `p`die wordt meegegeven geprint. Deze bevat de Pin(nr) van de opwekker van de interrupt.
 
 ## Koppeling van de Pin-input aan een ISR.
 
@@ -65,7 +65,7 @@ Met het statement `Pin.irq` worden er enkele parameters ingesteld met betrekking
 Bepaal zelf wat een dalende flank versus stijgende flank is bij een drukknop met een actief lage werking (pull-up R), teken het schema nog eens van die opstelling!!!
 :::
 
-> :bulb: **Tip:** Hier worden de twee interrupts verwezen naar dezelfde ISR. Dit is geen noodzaak. Iedere interrupt kan gerust zijn eigen ISR hebben.
+> :bulb: **Opmerking:** Hier worden de twee interrupts verwezen naar dezelfde ISR. Dit is geen noodzaak. Iedere interrupt kan gerust zijn eigen ISR hebben.
 
 ## Hoofdloop
 

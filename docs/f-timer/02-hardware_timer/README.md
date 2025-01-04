@@ -3,7 +3,9 @@ mathjax:
   presets: '\def\lr#1#2#3{\left#1#2\right#3}'
 ---
 
-# Gebruik van hardware-timers en hun interrupts
+# Timer Interrupts with the ESP32
+
+https://randomnerdtutorials.com/micropython-timer-interrupts-ep32-esp8266/
 
 Een nadeel om timers te gebruiken met het principe van millis is dat de tijd niet altijd heel nauwkeurig is. Er kan altijd een kleine fout aanwezig zijn omdat men niet constant vergelijkt. Andere code die de processor uitvoert neemt ook tijd in beslag. Omdat de timer van de controller maar om de 1ms verhoogd wordt kan men ook geen kleinere tijden dan 1ms registreren.
 
