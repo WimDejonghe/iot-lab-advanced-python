@@ -5,6 +5,8 @@ mathjax:
 
 # Dender softwarematig oplossen
 
+https://randomnerdtutorials.com/micropython-timer-interrupts-ep32-esp8266/
+
 We gaan hierbij eveneens gebruik maken van een externe interrupt. In de interruptroutine gaan we de tijd van het vorig voorkomen van de interrupt vergelijken met de huidige tijd. Als dit te snel is gaan we de code van de interrupt niet uitvoeren. Om de tijd te vergelijken maken we gebruik van de methode millis.
 
 ## Flowchart

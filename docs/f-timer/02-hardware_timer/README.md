@@ -185,7 +185,25 @@ def toggle_yellow_led(timer):
 
 Test de code.
 
+## Opdracht:
+
+<div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
+<p style="color:lightgreen; margin:10px">
+Opdracht: Blokgolf met interrupt timers (1kHz)
+<ul style="color: white;">
+<li>Schrijf een programma die een blokgolfspanning op een uitgang genereert met een frequentie van 1kHz en een duty-cycle van 50%. (maak gebruik van een timer)
+</li>
+<li>Een tweede blokgolfspanning op een andere uitgang genereert met een frequentie van 100Hz en een duty-cycle van 50%. (maaak gebruik van een tweede timer)
+</li>
+<li>Knipperled (derde LED gebruiken) maken in de Loop-methode op een periode van 250ms. Hiermee toon je de onafhankelijkheid van de ISR aan tov. de standaard Loop-methode.
+</li>
+<li>Meet, controlleer en visualiseer beide signalen met een oscilloscoop</li>
+<li>Toon de werking aan de docent</li>
+<li>Bespreek de werking van harware en software in het verslag</li>
+</ul>
+</p>
+</div>
 
 
-https://randomnerdtutorials.com/micropython-timer-interrupts-ep32-esp8266/
+
 
