@@ -10,7 +10,9 @@ Dender bij een drukknop is wanneer de drukknop meer dan één druk telt, terwijl
 
 ![Voorstelling dender.](./images/dender.png)
 
+:::warning
 Let wel in vorige figuur dat dit over een schakeling gaat die actief hoog is. In de meeste gevallen zal dit echter actief laag geschakeld zijn. Dan staat de vorige figuur op zijn kop. Laag niveau bij het indrukken. Dit is ook zo bij de extension shield.
+:::
 
 Dit gebeurt omdat de elektrische contacten in de knop zeer snel verbinding maken en ontkoppelen voordat ze een stabiele toestand bereiken, waardoor het systeem meerdere drukgebeurtenissen registreert, waardoor een onnauwkeurige telling ontstaat. Om dit probleem te voorkomen, kunnen we enkele debouncing-technieken toevoegen met behulp van vertragingen of timers.
 
