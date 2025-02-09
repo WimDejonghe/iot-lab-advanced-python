@@ -21,39 +21,115 @@ In de volgende figuur zijn de digitale IO-pinnen afgebeeld. Standaard wordt er b
 ![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp.png)
 ![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp32.png)
 
-## Include Wire-bibliotheek
+In dit deel komen volgende items aan bod:
+> - De I²C bus scannen
+> - Lezen en schrijven van I²C data
+> - Het connecteren van meerdere devices (slaves) op de bus.
 
-Om TWI (Two wire interface) of I²C te gebruiken moet je de bibliotheek wire.h includen in het begin van het programma.
+:::warning
+Hier wordt de ESP32 gebruikt als I²C master, wat in werkelijk ook meestal zo zal zijn. Het is echter mogelijk om de ESP32 als slave te configureren op een I²C bus met een andere master. Er is meestal ook maar één master die de bus onder zijn beheer het dataverkeer erop, laat gebeuren.
+:::
 
-```cpp
-#include <Arduino.h>
-#include <Wire.h>
+## MicroPython Methods voor I²C
+
+Er bestaan heel wat methodes die kunnen gebruikt worden voor de I²C bus communicatie. Hier enkele voorbeelden:
+
+```python
+i2c = I2C(0) # Default statement to declare an i2c object of the I2C class.
+i2c.scan()   #Scan for peripherals, and returns a list of 7-bit addresses.
+i2c.writeto(42, b'123') #Write 3 bytes to the device. The device’s address is 42.
+i2c.readfrom(0x3a, 4) # Read 4 bytes from the peripheral that has a 7-bit address of 0x3a.
+i2c.start()   #Generate a START condition on the bus.
+i2c.stop() #Generate a STOP condition on the bus.
 ```
 
-## I²C-objecten maken
-Het volgende is een object maken van de klasse TwoWire om een I²C bus te maken. Er kunnen maximum twee bussen gemaakt worden omdat de ESP32 er twee heeft. 
+## Scannen I²C devices
+Omdat I²C-apparaten unieke adressen hebben, zal het kennen van hun adressen ons helpen om met een of meer apparaten te communiceren. Het scannen van I²C-apparaten helpt ook om te weten of de bedrading correct is.
 
-```cpp
-TwoWire I2C_bus1 = TWoWire(0);
-TwoWire I2C_bus2 = TWoWire(1);
+Beschouw het voorbeeld van een microcontroller die is aangesloten op een sensor die via I²C kan communiceren. We kunnen de volgende code gebruiken om het I²C-adres van de sensor te scannen.
+
+```python
+import machine
+sdaPIN=machine.Pin(0)
+sclPIN=machine.Pin(1)
+i2c=machine.I2C(0,sda=sdaPIN, scl=sclPIN, freq=400000)
+devices = i2c.scan()
+if len(devices) != 0:
+    print('Number of I2C devices found=',len(devices))
+    for device in devices:
+        print("Device Hexadecimel Address= ",hex(device))
+else:
+    print("No device found")
 ```
-:warning: **Warning:** Vorige moet niet uitgevoerd worden al er maar 1 I²C bus wordt gebruikt.
 
-## Initialiseren van de I²C bus(sen)
-In de setup-methode gaat men de I²C-bus initialiseren. Bij het initialiseren gebruikt men de begin-methode. Bij deze methode worden er twee argumenten meegegeven. Het eerste is de IO-pin van de SDA en de tweede de IO-pin van de SCL.
-De klok stelt men in met de methode setClock.
+Het voorbeeld in de vorige sectie hierboven laat zien hoe u deze code kunt gebruiken om I²C-apparaten te scannen. Als er meerdere apparaten op een I²C-bus zijn aangesloten, worden de adressen van elk apparaat afgedrukt.
 
-```cpp
-#include <Arduino.h>
-#include <Wire.h>
-#define I2C_SDA 23
-#define I2C_SCL 22
-void setup() 
-{
-  Wire.begin(I2C_SDA, I2C_SCL);
-  Wire.setClock(400000);
-}
+## I²C example BME-280 slave
+
+Laten we een eenvoudig voorbeeld proberen van hoe sensoren kunnen worden gekoppeld aan een ESP32-ontwikkelbord met behulp van I²C- en MicroPython-code.
+
+Zorg er eerst voor dat de MicroPython-firmware naar uw ESP32 is geflasht. Onze handleidingen voor het flashen en uitvoeren van MicroPython op ESP32 met behulp van Thonny IDE en aan de slag gaan met ESP32 op Thonny IDE zijn nuttige bronnen.
+
+ESP32 heeft twee hardware I²C-modules die worden gemultiplext naar de GPIO's. In dit voorbeeld wordt de BME280-omgevingssensor gebruikt om te demonstreren hoe we met behulp van I²C gegevens van een sensor kunnen lezen.
+
+BME280 is een 3-in-één omgevingssensor van Bosch Sensortech. Het voert digitale gegevens uit met informatie over temperatuur, druk en vochtigheid. Het is algemeen verkrijgbaar in de vorm van breakout-bordmodules. De GY-BME280-module wordt geleverd met 4 pinnen voor aansluiting zoals hieronder weergegeven.
+
+![Het versturen van een aantal bytes naar een slave.](./images/bme280.png)
+
+## Bedrading BME-280
+
+Dit project maakt gebruik van een ESP-WROOM-32-ontwikkelbord, maar je kunt elk ander bord kiezen. Houd er rekening mee dat de gebruikte pinnen kunnen verschillen voor andere ESP32-kaarten!!
+
+![Het versturen van een aantal bytes naar een slave.](./images/bme280_2.png)
+
+:warning: **Warning:** Let op, bij de Adafruit ESP32 feather liggen alle pinnen op andere plaatsen en op andere nummers!!
+
+| ESP32 Pin | BME280 Pin | 
+| --------------- | --------------- |
+| GPIO 22 | SDA |
+| GPIO 23 | SCL | 
+| 3V3 | VIN | 
+| GND | GND |
+
+
+
+## Scan (zoek) I²C slave adres
+
+Nadat u GPIO22 en GPIO23 van ESP32 hebt aangesloten op respectievelijk de BME280 SDA- en SDA-pinnen, voert u de volgende MicroPython-code uit om het adres van de BME280-sensor te scannen en te vinden:
+
+```python
+# Import the machine module for hardware access
+import machine
+
+# Initialize the SDA pin for I2C communication
+sdaPIN = machine.Pin(22)
+
+# Initialize the SCL pin for I2C communication
+sclPIN = machine.Pin(23)
+
+# Initialize the I2C interface with the specified pins and frequency
+i2c = machine.I2C(0, sda=sdaPIN, scl=sclPIN, freq=400000)
+
+# Scan for devices connected to the I2C bus
+devices = i2c.scan()
+
+# Check if any devices are found
+if len(devices) == 0:
+    # If no devices are found, print a message
+    print("No I2C devices found!")
+else:
+    # If devices are found, print the number of devices found
+    print('I2C devices found:', len(devices))
+    # Iterate through each device found and print its hexadecimal address
+    for device in devices:
+        print("Hexadecimal address:", hex(device))
 ```
+De onderstaande schermafbeelding demonstreert de uitvoer in de shell van Thonny IDE en toont het hexadecimale adres van de BME280 dat na het scannen is gevonden.
+
+****************************************************************** 
+------------------------------------------------------------------
+
+
 
 ```cpp
 #include <Wire.h>
