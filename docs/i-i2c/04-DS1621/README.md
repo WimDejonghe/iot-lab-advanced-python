@@ -20,14 +20,6 @@ De MSB van de rechtse byte geeft weer of er een halve graad is.
 
 ![Voorbeeld temperatuurwaarden van de DS1621.](./images/tb.png)
 
-## Voorbeeld: software DS1621
-
-In het onderstaande figuur wordt de code gegeven om de temperatuur van de slave door de master te laten opvragen en deze te displayen via de seriële USB communicatie.
-
-![Het lezen van de temperatuur van een DS1621.](./images/code1.png)
-![Het lezen van de temperatuur van een DS1621.](./images/code2.png)
-
-
 ## Opdrachten:
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">

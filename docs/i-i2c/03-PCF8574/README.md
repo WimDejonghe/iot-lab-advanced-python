@@ -15,17 +15,21 @@ Een PCF8574 is een 8 bit IO-expander en wordt gebruikt om het aantal IO-pinnen u
 Er bestaat ook een variant op dit IC nl. de PCF8574A en daar is het adres anders. Zoek dit desnoods op.
 :::
 
-![Voorbeeldprogramma van het schrijven naar een PCF8574.](./images/code1.png)
+```python
+PCF8574_ADDR = 0x??????
 
-## Voorbeeld: Schrijven naar en lezen van twee PCF8574 slaves
+for value in range(256):
+    #schrijf 1 byte naar de slave
+    i2c.writeto(PCF8574_ADDR, bytes([value]))
+    #lees alle uitgangen van de slave in de vorm van 1 byte
+    byte_val = (i2c.readfrom(PCF8574_ADDR, 1))
+    # converting to int
+    # byteorder is big where MSB is at start
+    int_val = int.from_bytes(byte_val, "big") 
+    #print(int_val)
+    sleep(0.05)
 
-In het onderstaande voorbeeld worden twee IC’s van het type PCF8574 gebruikt. Het blokschema is weergegeven in de volgende figuur. Het bovenste IC met adres 0x27 wordt gebruikt voor 8 ingangen en daarvan zal gelezen moeten worden. Het onderste IC met adres 0x20 wordt gebruikt om 8 uitgang aan te verbinden en daarvan zal naar geschreven moeten worden.
-
-![Blokschema van het lezen van en schrijven naar twee PCF8574 IC's.](./images/slave1.png)
-![Blokschema van het lezen van en schrijven naar twee PCF8574 IC's.](./images/slave2.png)
-
-![Voorbeeldprogramma van het lezen van en schrijven naar twee IO-expanders van het type PCF8574.](./images/code2.png)
-
+```
 
 ## Opdrachten:
 
@@ -46,6 +50,8 @@ Opdracht2: ESP32 als I²C Master en een 8bit GPIO slave.
 <ul style="color: white;">
 <li>Schakel 8 leds op de GPIO pinnen van de slave (Rv!!!)</li>
 <li>Programmeer op de 8 Leds een continu lopend looplicht.</li>
+<li><b>!!!Let wel, de uitgangen zijn open-collector uitgangen. Verklaar wat dit is, en hoe moeten de Leds dan geschakeld worden?</b></li>
+<li>Hoe moet een uitgang aangestuurd worden zodat de Leds oplichten?</li>
 </ul>
 </p>
 </div>
