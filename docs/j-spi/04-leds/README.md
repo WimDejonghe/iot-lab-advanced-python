@@ -73,3 +73,41 @@ Opdracht1: ESP32 als SPI Master en een SPI Ledstrip.
 </ul>
 </p>
 </div>
+
+```python
+from machine import Pin, SoftSPI
+import time
+
+# Aantal LEDs in de strip
+aantal_leds = 5
+
+# SPI configuratie
+spi = SPI(baudrate=1000000, polarity=0, phase=0, sck=Pin(5), mosi=Pin(18))
+
+def send_data(data):
+    spi.write(bytearray(data))
+
+def set_leds(colors):
+    start_frame = [0x00, 0x00, 0x00, 0x00]
+    end_frame = [0xFF, 0xFF, 0xFF, 0xFF]
+    led_data = []
+    
+    for color in colors:
+        brightness = 0xE0 | 31  # Maximale helderheid
+        led_data.extend([brightness, color[2], color[1], color[0]])  # BGR-formaat
+    
+    send_data(start_frame + led_data + end_frame)
+
+def rainbow_cycle(wait):
+    colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
+    
+    while True:
+        for i in range(aantal_leds):
+            set_leds(colors[i:] + colors[:i])
+            time.sleep(wait)
+
+try:
+    rainbow_cycle(0.5)
+except KeyboardInterrupt:
+    set_leds([(0, 0, 0)] * aantal_leds)  # Zet alle LEDs uit bij stop
+```
