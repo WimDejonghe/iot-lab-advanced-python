@@ -26,24 +26,25 @@ Als er gebruik gemaakt wordt van HSPI, dan zijn de aansluitingen:
 De SPI gaan wij bij de ESP32 bijna altijd gebruiken als master en daarbij worden de standaard SPI-aansluitingen gebruikt.
 
 ## Includen van de SPI- bibiotheek
-Om de SPI-interface te gebruiken moet je de bibliotheek ‘SPI.h’ includen in het begin van het programma zoals in volgende code.
+Om de SPI-interface te gebruiken moet je de bibliotheek ‘SoftSPI’ includen uit de machine-bibliotheek in het begin van het programma zoals in volgende code.
 
-```cpp
-#include <Arduino.h>
-#include <SPI.h>
+```python
+from machine import Pin, SoftSPI
 ```
 
 ## Initialisatie van de SPI
 In de setup wordt de init gedaan. Daarbij is het belangrijk om alle Chip-selects in te stellen als uitgang en deze actief hoog te maken.
 Vervolgens worden de SPI-bus instellingen zoals SCK,MOSI, MISO geïnitialiseerd door de methode begin te gebruiken.
 
-```cpp
-  SPI.begin();
+```python
+sckPIN = Pin(5)
+misoPIN = Pin(19)
+mosiPIN = Pin(18)
+# Create SPI peripheral at frequency of 400kHz.
+spi = SoftSPI(sck=sckPIN, mosi=mosiPIN, miso=misoPIN, baudrate=400000)           
 ```
 
-Vervolgens zal je per SPI-device die je wil aansturen een object voor de instellingen maken. Dit is een object van het type SPI-settings:
-
-![De SPI-instellingen van een communicatie.](./images/instl.png)
+Vervolgens kan je per SPI-device die je wil aansturen een object voor de instellingen maken. Dit is een object van het type SPI-settings.
 
 Meer over de data-richting en modes wordt behandeld in paragraaf De klokpolariteit (CPOL) en de klokfase (CPHA)
 
@@ -63,15 +64,38 @@ De instellingen van CPOL en CPHA leiden tot 4 modes zoals in Tabel
 
 Over het algemeen zijn SPI-apparaten ontworpen om in een van de vier modi te werken en dit wordt beschreven in de datasheet van de slave.
 
-## Versturen van data naar een SPI-slave
-Om een byte te versturen naar een slave wordt de methode transfer gebruikt. Aan de methode wordt de versturen data meegegeven als argument zoals lijn 23 in de volgende figuur.
+Meer info hieromtrent: [SPI polariteit en fase.](https://docs.micropython.org/en/latest/library/machine.SPI.html)
 
-![Versturen van data naar een slave.](./images/send.png)
+## Versturen van data naar een SPI-slave
+Om een byte te versturen naar een slave wordt de methode spi.write() gebruikt. Aan de methode wordt de versturen data meegegeven als argument.
+
+```python
+cs1 = Pin(17, mode=Pin.OUT, value=1)      # Create chip-select on pin 17 LEDS.
+cs2 = Pin(16, mode=Pin.OUT, value=1)      # Create chip-select on pin 16 Switchen.
+
+cs1(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x05") #selectie IOCON register
+spi.write(b"\x20") #data voor IOCON register
+cs1(1)         
+```
 
 ## Ontvangen van data naar een SPI-slave.
-Om een byte te lezen van een slave wordt de methode transfer gebruikt. Er wordt data meegegeven aan de methode. De waarde van de data is niet van belang. Er moet data meegestuurd worden zodat de microcontroller de klok genereerd zodat de slave de data op de MISO kan plaatsen. De methode transfer geeft de gelezen byte terug en deze wordt in een variabele geplaatst zoals lijn 24 in de volgende figuur.
+Om een byte te lezen van een slave wordt de methode spi.read() gebruikt. Er wordt data meegegeven aan de methode. De waarde van de data is het aantal te lezen bytes. Er moet data meegestuurd worden zodat de microcontroller de klok genereerd zodat de slave de data op de MISO kan plaatsen. De methode transfer geeft de gelezen byte terug en deze wordt in een variabele geplaatst zoals lijn 24 in de volgende figuur.
 
-![Ontvangen van data van een slave.](./images/rcv.png)
+> :memo: **Note:** SPI.read(nbytes, write=0x00) #=> Read a number of bytes specified by nbytes while continuously writing the single byte given by write. Returns a bytes object with the data that was read.
+
+```python
+while True:
+    cs2(0)
+    spi.write(b"\x41") #adres van de MCP23S09 SPI device (LEESmodus)
+    spi.write(b"\x09") #selectie GPIO register
+    lees = spi.read(1) #lezen van 1 byte
+    cs2(1)
+    #print(lees)
+    print("GPIO Status: {:08b}".format(lees[0]))
+    sleep(0.1)
+```
 
 ## Een eenvoudige SPI-communicatie
 Er wordt bij de master (onze microcontroller) een SPI-instantie van de SPI-klasse aangemaakt waarbij er wordt weergegeven welk IO-pinnen er gebruikt worden voor de SCLK, MISO en MOSI.

@@ -58,16 +58,6 @@ We gebruiken een ledstrip die bestaat uit 5 leds. Het schema is afgebeeld in vol
 
 ![Schema ven een APA102 ledstrip van 5 leds.](./images/hw.png)
 
-## Flowchart
-
-![Flowchart van het aansturen van een adresseerbare ledstrip.](./images/fc.png)
-
-## Software
-
-![Software code APA102.](./images/code1.png)
-![Software code APA102.](./images/code2.png)
-![Software code APA102.](./images/code3.png)
-
 ## Opdrachten:
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">

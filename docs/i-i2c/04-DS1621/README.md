@@ -26,9 +26,9 @@ De MSB van de rechtse byte geeft weer of er een halve graad is.
 <p style="color:lightgreen; margin:10px">
 Opdracht: ESP32 als I²C Master en een DS1621 als slave.
 <ul style="color: white;">
-<li>Realiseer het programma zoals hierboven beschreven.</li>
-<li>Uitbreiding1: Display de temperatuur op een LCD scherm</li>
-<li>Uitbreiding2: Display de temperatuur op Gauche wijzer in NodeRed op uw laptop</li>
+<li>Realiseer een programma dat de temperatuur leest.</li>
+<li>Display de temperatuur op een LCD scherm</li>
+<li>Uitbreiding: Display de temperatuur ook op Gauche wijzer in NodeRed op uw laptop</li>
 </ul>
 </p>
 </div>

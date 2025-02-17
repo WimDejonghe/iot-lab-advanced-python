@@ -139,7 +139,7 @@ Op github is meer info te lezen omtrent het gebruik van de sensor.
 <p style="color:lightgreen; margin:10px">
 Opdracht1: ESP32 als I²C Master en een BME280 slave.
 <ul style="color: white;">
-<li>Zorg ervoor dat je met het I²C scan programma de bus kan afscannen op zoek naar het juiste adres van de slave (BME280)</li>
+<li>Zorg ervoor dat je met het I²C scan programma de bus kan afscannen op zoek naar het juiste adres van de slave (BME280/BMP280)</li>
 <li>Als dit gevonden is, gebruik dan een routine die de waarden van de sensor kan weergeven op de Terminal.</li>
 </ul>
 </p>

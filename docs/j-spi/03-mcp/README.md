@@ -11,8 +11,97 @@ In de volgende figuur wordt een blokschema van MCP23S09 weergegeven. Het IC kan 
 
 Met volgende code:
 
-![Aansturen van 8 digitale uitgangen van een SPI-IO-expander (MCP23S09).](./images/code1.png)
-![Aansturen van 8 digitale uitgangen van een SPI-IO-expander (MCP23S09).](./images/code2.png)
+```python
+from machine import Pin, SoftSPI
+from time import sleep
+
+sckPIN = Pin(5)
+misoPIN = Pin(19)
+mosiPIN = Pin(18)
+
+spi = SoftSPI(sck=sckPIN, mosi=mosiPIN, miso=misoPIN, baudrate=400000)           # Create SPI peripheral 0 at frequency of 400kHz.
+                                        # Depending on the use case, extra parameters may be required
+                                        # to select the bus characteristics and/or pins to use.
+cs1 = Pin(17, mode=Pin.OUT, value=1)      # Create chip-select on pin 17 LEDS.
+cs2 = Pin(16, mode=Pin.OUT, value=1)      # Create chip-select on pin 16 Switchen.
+
+cs1(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x05") #selectie IOCON register
+spi.write(b"\x20") #data voor IOCON register
+cs1(1)
+
+sleep(0.01)
+
+cs1(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x00") #selectie IODIR register
+spi.write(b"\x00") #data IODIR register (allemaal outputs)
+cs1(1)
+
+sleep(0.01)
+
+cs1(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x09") #selectie GPIO register
+spi.write(b"\xAA") #data GPIO register (schrijven van output data) Leds werken via Pullup, dus 0 = oplichten
+cs1(1)
+for value in range(256):
+    cs1(0)
+    spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+    spi.write(b"\x09") #selectie GPIO register
+    spi.write(bytes([value]))
+    cs1(1)
+    sleep(0.05)
+
+
+#vanaf hier de configuratie van de drukknoppen
+cs2(0)
+spi.write(b"\x40") ##adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x05") #selectie IOCON register
+spi.write(b"\x20") #data voor IOCON register
+cs2(1)
+
+sleep(0.01)
+
+cs2(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x00") #selectie IODIR register
+spi.write(b"\xFF") #Data IODIR register (het zijn allemaal inputs)
+cs2(1)
+
+sleep(0.01)
+
+cs2(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x06") #selectie GPPU register (om pullup R op de pinnen in te schakelen)
+spi.write(b"\xFF") #Data IODIR register (het zijn allemaal inputs)
+cs2(1)
+
+sleep(0.01)
+
+cs2(0)
+spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
+spi.write(b"\x01") #selectie IPOL register (of een ingang invers of niet wordt gelezen)
+spi.write(b"\xFF") #Data IPOL register (alle ingangen worden invers gelezen)
+cs2(1)
+
+sleep(0.01)
+
+while True:
+    cs2(0)
+    spi.write(b"\x41") #adres van de MCP23S09 SPI device (LEESmodus)
+    spi.write(b"\x09") #selectie GPIO register
+    lees = spi.read(1) #lezen van 1 byte
+    cs2(1)
+    #print(lees)
+    print("GPIO Status: {:08b}".format(lees[0]))
+    sleep(0.1)
+    
+
+
+
+```
 
 ## Opdrachten:
 
