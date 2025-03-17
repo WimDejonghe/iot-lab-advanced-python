@@ -36,18 +36,3 @@ Deze coderegel configureert een timer (my_timer) zodat deze in een one-shot-modu
 
 > :bulb: **Opmerking:** Meer info omtrent timers in Micropython is te vinden in de [MicroPython documentation.](https://docs.micropython.org/en/latest/library/machine.Timer.html)
 
-## Opdracht
-
-<div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
-<p style="color:lightgreen; margin:10px">
-Opdracht: Blokgolf met Timer
-<ul style="color: white;">
-<li>Schrijf een programma die een blokgolfspanning op uitgang 12 voorziet met een frequentie van 100Hz en een duty-cycle van 50%.
-</li>
-<li>Meet, controlleer en visualiseer het signaal met een oscilloscoop</li>
-<li>Schrijf de millis waarde om de 100Hz naar de Serial monitor</li>
-<li>Toon de werking aan de docent</li>
-<li>Bespreek de werking van harware en software in het verslag</li>
-</ul>
-</p>
-</div>
