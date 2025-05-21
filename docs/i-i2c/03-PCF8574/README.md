@@ -31,6 +31,8 @@ for value in range(256):
 
 ```
 
+> :bulb: **Opmerking:** De uitgangen van een PCF8574 zijn geen ACTIEVE UITGANGSTRAPPEN, maar OPENCOLLECTOR uitgangen!!!
+
 ## Opdrachten:
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
