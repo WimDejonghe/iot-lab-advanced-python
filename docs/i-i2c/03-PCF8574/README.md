@@ -33,6 +33,39 @@ for value in range(256):
 
 > :bulb: **Opmerking:** De uitgangen van een PCF8574 zijn geen ACTIEVE UITGANGSTRAPPEN, maar OPENCOLLECTOR uitgangen!!!
 
+## Actieve uitgangstrap versus Opencollector outputs.
+
+Bij digitale IC's bestaan er verschillende uitvoeringsvormen van de output. De twee meest voorkomende vormen zijn ofwel een 'Actieve Uitgangstrap' of een 'Open Collector Uitgangstrap'. 
+
+Wat is het verschil?
+
+### Actieve Uitgangstrap
+
+Bij een actieve uitgangstrap is inwendig in het IC bij een digtale output uitgevoerd met twee transistoren of MOSFet's. Beide componenten kan vereenvoudigd worden in een schema door schakelaars. In de volgende tekening door S1 en S2 die worden bediend door de interne logica van het IC. Als het inwendige beslist dat de output LOW moet zijn, dan wordt S2 gesloten (S1 is dan open). Beslist echter het IC dat de output HIGH moet zijn, dan wordt S1 gesloten met een open S2. Op die manier komt de output op 0 of 1 te staan.
+
+![Opbouw van een Actieve Uitgangstrap.](./images/actief.png)
+
+### Open Collector uitgangstrap
+
+Een ander IC kan dan zo uitgevoerd zijn dat de outputs ervan, als Open Collector Uitgangstrap zijn uitgevoerd. Het valt op te merken dat bij deze uitvoering de aanwezigheid van de S1 transistor-schakelaar ontbreekt.
+
+![Opbouw van een OpenCollector Uitgangstrap.](./images/oc.png)
+
+Als de uitgang een LOW moet zijn zal de inwendige logica S2 sluiten. Als de uitgang een HIGH moet zijn, dan zal de inwendige logica S2 openen. 
+
+Er zijn verschillende voordelen aan dit soort uitgang tov de actieve uitgangstrap. Een voordeel is dat de voedingsspanning van de aan te sturen belasting niet perse dezelfde moet zijn als de voedingsspanning van het IC zelf. Er zijn nog andere voordelen, maar hier wordt niet verder op ingegaan.
+
+> [!IMPORTANT]  
+> Er zijn wel enkele aandachtspunten wanneer een belasting (meest eenvoudig is een LED) moet worden aangestuurd. Deze kan niet geschakeld worden naar de GND. Die zou nooit oplichten. Maw een ACTIEF HOGE schakeling kan nooit werken bij een Opencollector uitgang. Actief hoog wil zeggen dat de LED zal oplichten bij een HOOG zijn van de uitgang. Er kan dus noiit een SOURCE stroom vloeien!!!
+
+![Foutieve aansturing van een LED bij een OpenCollector Uitgangstrap.](./images/oc1.png)
+
+Vorige schakeling kan nooit werken.
+Om een LED, of een andere belasting of verbruiker, aan te sturen kan dit enkel in een ACTIEF LAGE schakeling, dus een SINK stroom. zoals in volgende opstelling.
+
+![Juiste aansturing van een LED bij een OpenCollector Uitgangstrap.](./images/oc2.png)
+
+
 ## Opdrachten:
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
