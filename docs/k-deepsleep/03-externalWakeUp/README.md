@@ -62,6 +62,20 @@ esp32.wake_on_ext0(pin = wake1, level = esp32.WAKEUP_ANY_HIGH)
 
 The wake_on_ext0() method accepts as arguments the pin and the level:
 
+pin: an object of type Pin (the GPIO that acts as a wake up source)
+level: defines the state of the GPIO that wakes up the ESP32. The level can be one of the following parameters:
+WAKEUP_ANY_HIGH
+WAKEUP_ALL_LOW
+In this case, we’re using the WAKEUP_ANY_HIGH method that wakes up the ESP32 when the GPIO goes HIGH.
+
+Your main code to execute a task should go after defining the wake up source and right before going to sleep.
+
+We add a 10 second delay before going to sleep. To put the ESP32 into deep sleep, you just need to use the deepsleep() method as follows:
+
+```python
+machine.deepsleep()
+```
+
 ## Opdrachten:
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
