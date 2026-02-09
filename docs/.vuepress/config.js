@@ -127,6 +127,16 @@ module.exports = {
            
         ]
       },
+      {
+        text: 'Deep Sleep en WakeUp methoden',
+        children: [
+          '/k-deepsleep/01-intro/README.md',  
+          '/k-deepsleep/02-timerWakeUp/README.md',  
+          '/k-deepsleep/03-externalWakeUp/README.md', 
+           
+           
+        ]
+      },
      
     ],
     sidebarDepth: 1,
