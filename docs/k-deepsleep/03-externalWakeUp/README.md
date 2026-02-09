@@ -3,105 +3,64 @@ mathjax:
   presets: '\def\lr#1#2#3{\left#1#2\right#3}'
 ---
 
-# Aansturen van een MCP23S09 SPI-IO-expander
+# External Wake Up
 
-In de volgende figuur wordt een blokschema van MCP23S09 weergegeven. Het IC kan gebruikt worden om via SPI of I²C het aantal IO-pinnen uit te breiden met 8.
+The ESP32 can also be awaken from sleep when there is a change on the state of a pin. There are two possibilities of external wake up with the ESP32: ext0 and ext1.
 
-![Blokschema van een MCP23S09 IO-expander.](./images/schema.png)
+The ext0 mode allows you to use one GPIO as a wake up source. The ext1 mode allows you to set more than one GPIO as a wake up source at the same time.
 
-Met volgende code:
+Only RTC GPIOs can be used as a wake up source. The RTC GPIOs are highlighted with an orange rectangle box in the next diagram.
+
+![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp.png)
+![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp32_2.jpg)
+
+## External wake up – ext0
+
+To illustrate how to use the external wake up ext0, we’ll use one pushbutton as a wake up source. The ESP32 awakes when you press the pushbutton.
+
+:::warning
+Je kan gebruik maken van de extentionshield om een drukknop te gebruiken als WakeUp-event. Let wel deze werkt zoals meestal ACTIEF-LAAG met een Pull-up weerstand!!! Gebruik dus in volgende code : esp32.WAKEUP_ALL_LOW
+:::
+
+### Script
+
+The following script shows how ext0 works: it uses one GPIO as an external wake up source.
 
 ```python
-from machine import Pin, SoftSPI
+import esp32
+from machine import Pin
+from machine import deepsleep
 from time import sleep
 
-sckPIN = Pin(5)
-misoPIN = Pin(19)
-mosiPIN = Pin(18)
+wake1 = Pin(14, mode = Pin.IN)
 
-spi = SoftSPI(sck=sckPIN, mosi=mosiPIN, miso=misoPIN, baudrate=400000)           # Create SPI peripheral 0 at frequency of 400kHz.
-                                        # Depending on the use case, extra parameters may be required
-                                        # to select the bus characteristics and/or pins to use.
-cs1 = Pin(17, mode=Pin.OUT, value=1)      # Create chip-select on pin 17 LEDS.
-cs2 = Pin(16, mode=Pin.OUT, value=1)      # Create chip-select on pin 16 Switchen.
+#level parameter can be: esp32.WAKEUP_ANY_HIGH or esp32.WAKEUP_ALL_LOW
+esp32.wake_on_ext0(pin = wake1, level = esp32.WAKEUP_ANY_HIGH)
 
-cs1(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x05") #selectie IOCON register
-spi.write(b"\x20") #data voor IOCON register
-cs1(1)
+#your main code goes here to perform a task
 
-sleep(0.01)
-
-cs1(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x00") #selectie IODIR register
-spi.write(b"\x00") #data IODIR register (allemaal outputs)
-cs1(1)
-
-sleep(0.01)
-
-cs1(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x09") #selectie GPIO register
-spi.write(b"\xAA") #data GPIO register (schrijven van output data) Leds werken via Pullup, dus 0 = oplichten
-cs1(1)
-for value in range(256):
-    cs1(0)
-    spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-    spi.write(b"\x09") #selectie GPIO register
-    spi.write(bytes([value]))
-    cs1(1)
-    sleep(0.05)
-
-
-#vanaf hier de configuratie van de drukknoppen
-cs2(0)
-spi.write(b"\x40") ##adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x05") #selectie IOCON register
-spi.write(b"\x20") #data voor IOCON register
-cs2(1)
-
-sleep(0.01)
-
-cs2(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x00") #selectie IODIR register
-spi.write(b"\xFF") #Data IODIR register (het zijn allemaal inputs)
-cs2(1)
-
-sleep(0.01)
-
-cs2(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x06") #selectie GPPU register (om pullup R op de pinnen in te schakelen)
-spi.write(b"\xFF") #Data IODIR register (het zijn allemaal inputs)
-cs2(1)
-
-sleep(0.01)
-
-cs2(0)
-spi.write(b"\x40") #adres van de MCP23S09 SPI device (schrijfmodus)
-spi.write(b"\x01") #selectie IPOL register (of een ingang invers of niet wordt gelezen)
-spi.write(b"\xFF") #Data IPOL register (alle ingangen worden invers gelezen)
-cs2(1)
-
-sleep(0.01)
-
-while True:
-    cs2(0)
-    spi.write(b"\x41") #adres van de MCP23S09 SPI device (LEESmodus)
-    spi.write(b"\x09") #selectie GPIO register
-    lees = spi.read(1) #lezen van 1 byte
-    cs2(1)
-    #print(lees)
-    print("GPIO Status: {:08b}".format(lees[0]))
-    sleep(0.1)
-    
-
-
-
+print('Im awake. Going to sleep in 10 seconds')
+sleep(10)
+print('Going to sleep now')
+deepsleep()
 ```
+### How the code works
+
+First, you need to import the necessary modules. You need to import the esp32 module that contains the methods to set a pin as a wake up source.
+
+After importing the necessary modules, define a wake up pin. In this case we’re using GPIO14 and we call it wake1. This GPIO should be set as an input (Pin.IN).
+
+```python
+wake1 = Pin(14, mode = Pin.IN)
+```
+
+Then, set ext0 as a wake up source using the wake_on_ext0() method as follows:
+
+```python
+esp32.wake_on_ext0(pin = wake1, level = esp32.WAKEUP_ANY_HIGH)
+```
+
+The wake_on_ext0() method accepts as arguments the pin and the level:
 
 ## Opdrachten:
 
