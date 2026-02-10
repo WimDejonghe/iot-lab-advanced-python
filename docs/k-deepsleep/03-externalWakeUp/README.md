@@ -63,14 +63,14 @@ De methode wake_on_ext0() accepteert de pin en het niveau als argumenten:
 
 > - pin: an object of type Pin (the GPIO that acts as a wake up source)
 > - level: defines the state of the GPIO that wakes up the ESP32. The level can be one of the following parameters:
->   - WAKEUP_ANY_HIGH
->   - WAKEUP_ALL_LOW
+>   - `WAKEUP_ANY_HIGH`
+>   - `WAKEUP_ALL_LOW`
 
-In dit geval gebruiken we de WAKEUP_ANY_HIGH-methode, die de ESP32 activeert wanneer de GPIO-pin hoog wordt.
+In dit geval gebruiken we de `WAKEUP_ANY_HIGH` methode, die de ESP32 activeert wanneer de GPIO-pin hoog wordt.
 
 De hoofdcode voor het uitvoeren van een taak moet na het definiëren van de wekbron en vlak voor het in slaapstand gaan worden geplaatst.
 
-We voegen een vertraging van 10 seconden toe voordat we naar de slaapstand gaan. Om de ESP32 in de diepe slaapstand te zetten, hoeft u alleen de deepsleep()-methode te gebruiken zoals hieronder weergegeven:
+We voegen een vertraging van 10 seconden toe voordat we naar de slaapstand gaan. Om de ESP32 in de diepe slaapstand te zetten, hoeft u alleen de `deepsleep()` methode te gebruiken zoals hieronder weergegeven:
 
 ```python
 machine.deepsleep()
@@ -113,3 +113,33 @@ Opdracht3: ESP32 in deepsleep en wakeup op basis van tijd.
 </ul>
 </p>
 </div>
+
+## External wake up – ext1
+
+De externe wake-up-functie ext1 werkt vrijwel hetzelfde als ext0, maar hiermee kunt u meerdere GPIO's als wake-up-bron instellen. Om te demonstreren hoe dit werkt, gebruiken we twee drukknoppen die op verschillende GPIO's zijn aangesloten.
+
+In dit geval gebruiken we GPIO14 en GPIO12. U kunt elke andere geschikte GPIO gebruiken, maar deze moeten wel RTC-GPIO's zijn, anders werkt deze methode niet.
+
+### Script
+
+Het volgende script laat zien hoe ext1 werkt: het gebruikt twee GPIO's als externe wake-upbron, maar je kunt er meer gebruiken als je dat wilt.
+
+```python
+import esp32
+from machine import deepsleep
+from machine import Pin
+from time import sleep
+
+wake1 = Pin(14, mode = Pin.IN)
+wake2 = Pin(12, mode = Pin.IN)
+
+#level parameter can be: esp32.WAKEUP_ANY_HIGH or esp32.WAKEUP_ALL_LOW
+esp32.wake_on_ext1(pins = (wake1, wake2), level = esp32.WAKEUP_ANY_HIGH)
+
+#your main code goes here to perform a task
+
+print('Im awake. Going to sleep in 10 seconds')
+sleep(10)
+print('Going to sleep now')
+deepsleep()
+```
