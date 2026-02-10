@@ -5,31 +5,31 @@ mathjax:
 
 # Introductie?
 
-This tutorial shows how to put the ESP32 in deep sleep mode and wake it up using different wake up sources using MicroPython firmware. We’ll cover timer wake up and external wake up.
+Dit cursusdeel laat zien hoe je de ESP32 in de diepe slaapstand zet en hem weer wakker maakt met behulp van verschillende wekbronnen via MicroPython-firmware. We behandelen zowel wekken met een timer als wekken met een externe digitale input.
 
 ![Intro Deep sleep.](./images/intro1.png)
 
-The ESP32 can also be awaken from deep sleep using the touch pins by defining a threshold.
+De ESP32 kan ook uit de diepe slaapstand worden gehaald met behulp van de touch-pinnen door een drempelwaarde in te stellen.
 
 ## Wat is Deep Sleep?
 
-Having your ESP32 running on active mode with batteries it’s not ideal, since the power from batteries will drain very quickly.
+Het is niet ideaal om je ESP32 in actieve modus met batterijen te laten werken, omdat de batterijen dan erg snel leeglopen.
 
 ![Batterij verbruik (energie vermogen).](./images/intro2.png)
 
-If you put your ESP32 in deep sleep mode, it will reduce the power consumption and your batteries will last longer. Having the ESP32 in deep sleep mode means cutting with the activities that consume more power while operating but leave just enough activity to wake up the processor when something interesting happens.
+Als je je ESP32 in de diepe slaapstand zet, verlaag je het stroomverbruik en gaan je batterijen langer mee. In de diepe slaapstand worden de activiteiten die veel stroom verbruiken tijdens gebruik uitgeschakeld, maar blijft er net genoeg activiteit over om de processor te activeren wanneer er iets interessants gebeurt.
 
-When operating in deep sleep mode, the ESP32 have a current consumption on the μA range. With a custom and carefully designed board you can get a minimal comsumption of only 5 μA. However, if you use a full-feature ESP32 development board with built-in programmer, on-board LEDs, and so on (like the ESP32 DOIT board) you won’t be able to achieve such a low power state, but you can still save power.
+In de diepe slaapstand verbruikt de ESP32 een stroom in de orde van microampères. Met een speciaal ontworpen printplaat kun je een minimaal verbruik van slechts 5 microampère bereiken. Als je echter een volledig uitgeruste ESP32-ontwikkelingsprintplaat gebruikt met ingebouwde programmeur, LED's, enzovoort, zul je zo'n laag stroomverbruik niet kunnen bereiken, maar je kunt nog steeds energie besparen.
 
 
-## Wake Up Sources
+## Wake Up Bronnen
 
-After putting the ESP32 into deep sleep mode, there are several ways to wake it up:
+Nadat je de ESP32 in de diepe slaapstand hebt gezet, zijn er verschillende manieren om hem weer wakker te maken:
 
-> - You can use the timer: waking up the ESP32 after predefined periods of time.
-> - You can use an external wake up: this means the ESP32 can wake up when a change in the state of a pin occurs.
-> - You can use the touch pins: implemented, but not working as expected at the time of writing, so we won’t cover this at the moment;
-> - You can use the ULP co-processor to wake up: we haven’t tested this feature yet.
+> - Je kunt de timer gebruiken om de ESP32 na vooraf ingestelde tijdsperioden te activeren.
+> - Je kunt een externe wake-up gebruiken: dit betekent dat de ESP32 kan worden geactiveerd wanneer de status (digitaal) van een pin verandert.
+> - Je kunt de touch-pinnen gebruiken: deze zijn geïmplementeerd, maar werken op het moment van schrijven nog niet zoals verwacht, dus we zullen dit voorlopig niet behandelen.
+> - Je kunt de ULP-coprocessor gebruiken om het apparaat te activeren; we hebben deze functie nog niet getest.
 
 
 

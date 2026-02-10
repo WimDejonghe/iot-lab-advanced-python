@@ -8,15 +8,15 @@ mathjax:
 
 ![Wake Up op basis van tijd (timer).](./images/fig1.png)
 
-The ESP32 can go into deep sleep mode, and then wake up at predefined periods of time. This feature is especially useful if you are running projects that require time stamping or daily tasks, while maintaining low power consumption.
+De ESP32 kan in een diepe slaapstand gaan en vervolgens op vooraf ingestelde tijdstippen weer wakker worden. Deze functie is vooral handig voor projecten die tijdstempels of dagelijkse taken vereisen, terwijl het energieverbruik laag blijft.
 
-To put the ESP32 in deep sleep mode for a predetermined number of seconds, you just have to use the `deepsleep()` function from the `machine` module. This function accepts as arguments, the sleep time in milliseconds as follows:
+Om de ESP32 voor een vooraf bepaald aantal seconden in de diepe slaapstand te zetten, hoeft u alleen maar de functie `deepsleep()` uit de `machine`-module te gebruiken. Deze functie accepteert als argumenten de slaaptijd in milliseconden, zoals hieronder weergegeven:
 
 ```python
 machine.deepsleep(sleep_time_ms)
 ```
 
-Let’s look at a simple example to see how it works. In the following code, the ESP32 is in deep sleep mode for 10 seconds, then it wakes up, blinks an LED, and goes back to sleep.
+Laten we een eenvoudig voorbeeld bekijken om te zien hoe het werkt. In de volgende code bevindt de ESP32 zich 10 seconden in de diepe slaapstand, waarna hij ontwaakt, een LED laat knipperen en vervolgens weer in slaapstand gaat.
 
 ```python
 from machine import deepsleep
@@ -41,9 +41,14 @@ print('Im awake, but Im going to sleep')
 deepsleep(10000)
 ```
 
+:::warning
+Let wel dat de microcontroller bij het ontwaken een herstart kent. Dit wil zeggen als je deze code laat runnen vanuit Thonny editor dat de controller terug in de start Python editor komt. 
+Wil je dit als een continu proces laten gebeuren dan is het noodzakelijk om dit bestand als main.py op te slaan op de microcontroller zelf!! Wil je nadien opnieuw in programmeerstatus komen, dan is het noodzakelijk om MicroPython opnieuw te installeren op de microcontroller.
+:::
+
 ## How the Code Works
 
-First, import the necessary libraries:
+Eerst, importeer de noodzakelijke bibliotheken (libraries):
 
 ```python
 import machine
@@ -51,13 +56,13 @@ from machine import Pin
 from time import sleep
 ```
 
-Create a `Pin` object that refers to <span style="color:blue">GPIO 13</span> called `led`. This refers to the on-board LED.
+Maak een `Pin`-object aan dat verwijst naar <span style="background-color:powderblue;">GPIO 13</span> met de naam `led`. Dit verwijst naar de ingebouwde LED.
 
 ```python
 led = Pin (13, Pin.OUT)
 ```
 
-The following commands blink the LED.
+De volgende code laat de LED knipperen.
 
 ```python
 led.value(1)
@@ -66,22 +71,22 @@ led.value(0)
 sleep(1)
 ```
 
-In this case, we’re blinking an LED for demonstration purposes, but the idea is to add your main code in this section of the script.
+In dit geval laten we een LED knipperen ter demonstratie, maar het is de bedoeling dat je je hoofdcode in dit gedeelte van het script plaatst.
 
-Before going to sleep, we add a delay of 5 seconds and print a message to indicate that it’s going to sleep.
+Voordat het apparaat in slaapstand gaat, voegen we een vertraging van 5 seconden toe en printen we een bericht om aan te geven dat het in slaapstand gaat.
 
 ```python
 sleep(5)
 print('Im awake, but Im going to sleep')
 ```
 
-It’s important to add a 5 seconds delay before going to sleep when we are developing the scripts. When you want to upload a new code to the board, it needs to be awake. So, if you don’t have the delay, it will be difficult to catch it awake to upload new code later on. After having the final code, you can delete that delay.
+Het is belangrijk om een ​​vertraging van 5 seconden in te bouwen voordat het bord in slaapstand gaat tijdens het ontwikkelen van de scripts. Wanneer je nieuwe code naar het bord wilt uploaden, moet het bord wakker zijn. Zonder deze vertraging is het lastig om het bord later wakker te krijgen om nieuwe code te uploaden. Nadat de definitieve code klaar is, kun je de vertraging verwijderen.
 
-Finally, put the ESP32 in deep sleep for 10 seconds (10 000 milliseconds).
+Zet de ESP32 tot slot 10 seconden (10.000 milliseconden) in de diepe slaapstand.
 
 ```python
 machine.deepsleep(10000)
 ```
 
-After 10 seconds, the ESP32 wakes up and runs the code from the start, similarly to when you press the EN/RST button.
+Na 10 seconden wordt de ESP32 wakker en voert de code vanaf het begin uit, net zoals wanneer je op de EN/RST-knop drukt.
 

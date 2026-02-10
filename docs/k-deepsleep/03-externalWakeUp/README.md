@@ -5,18 +5,18 @@ mathjax:
 
 # External Wake Up
 
-The ESP32 can also be awaken from sleep when there is a change on the state of a pin. There are two possibilities of external wake up with the ESP32: ext0 and ext1.
+De ESP32 kan ook uit de slaapstand worden gehaald wanneer de status van een pin verandert. Er zijn twee mogelijkheden om de ESP32 extern te activeren: ext0 en ext1.
 
-The ext0 mode allows you to use one GPIO as a wake up source. The ext1 mode allows you to set more than one GPIO as a wake up source at the same time.
+De ext0-modus stelt u in staat één GPIO als wekbron te gebruiken. De ext1-modus stelt u in staat meerdere GPIO's tegelijkertijd als wekbron in te stellen.
 
-Only RTC GPIOs can be used as a wake up source. The RTC GPIOs are highlighted with an orange rectangle box in the next diagram.
+Alleen de GPIO-pinnen van de RTC kunnen als wekbron worden gebruikt. De GPIO-pinnen van de RTC zijn in het volgende diagram gemarkeerd met een paarse rechthoek.
 
 ![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp.png)
 ![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/esp32_2.jpg)
 
 ## External wake up – ext0
 
-To illustrate how to use the external wake up ext0, we’ll use one pushbutton as a wake up source. The ESP32 awakes when you press the pushbutton.
+Om te illustreren hoe je de externe wake-up ext0 gebruikt, nemen we een drukknop als wekbron. De ESP32 wordt geactiveerd wanneer je op de drukknop drukt.
 
 :::warning
 Je kan gebruik maken van de extentionshield om een drukknop te gebruiken als WakeUp-event. Let wel deze werkt zoals meestal ACTIEF-LAAG met een Pull-up weerstand!!! Gebruik dus in volgende code : esp32.WAKEUP_ALL_LOW
@@ -24,7 +24,7 @@ Je kan gebruik maken van de extentionshield om een drukknop te gebruiken als Wak
 
 ### Script
 
-The following script shows how ext0 works: it uses one GPIO as an external wake up source.
+Het volgende script laat zien hoe ext0 werkt: het gebruikt één GPIO als externe wake-up-bron.
 
 ```python
 import esp32
@@ -44,33 +44,33 @@ sleep(10)
 print('Going to sleep now')
 deepsleep()
 ```
-### How the code works
+### Hoe werkt de code?
 
-First, you need to import the necessary modules. You need to import the esp32 module that contains the methods to set a pin as a wake up source.
+Eerst moet je de benodigde modules importeren. Je moet de esp32-module importeren, die de methoden bevat om een ​​pin als wake-up-bron in te stellen.
 
-After importing the necessary modules, define a wake up pin. In this case we’re using GPIO14 and we call it wake1. This GPIO should be set as an input (Pin.IN).
+Nadat je de benodigde modules hebt geïmporteerd, definieer je een wake-up-pin. In dit geval gebruiken we GPIO14 en noemen we deze wake1. Deze GPIO moet worden ingesteld als ingang (Pin.IN).
 
 ```python
 wake1 = Pin(14, mode = Pin.IN)
 ```
-
-Then, set ext0 as a wake up source using the wake_on_ext0() method as follows:
+Stel vervolgens ext0 in als wekbron met behulp van de wake_on_ext0()-methode als volgt:
 
 ```python
 esp32.wake_on_ext0(pin = wake1, level = esp32.WAKEUP_ANY_HIGH)
 ```
 
-The wake_on_ext0() method accepts as arguments the pin and the level:
+De methode wake_on_ext0() accepteert de pin en het niveau als argumenten:
 
-pin: an object of type Pin (the GPIO that acts as a wake up source)
-level: defines the state of the GPIO that wakes up the ESP32. The level can be one of the following parameters:
-WAKEUP_ANY_HIGH
-WAKEUP_ALL_LOW
-In this case, we’re using the WAKEUP_ANY_HIGH method that wakes up the ESP32 when the GPIO goes HIGH.
+> - pin: an object of type Pin (the GPIO that acts as a wake up source)
+> - level: defines the state of the GPIO that wakes up the ESP32. The level can be one of the following parameters:
+>   - WAKEUP_ANY_HIGH
+>   - WAKEUP_ALL_LOW
 
-Your main code to execute a task should go after defining the wake up source and right before going to sleep.
+In dit geval gebruiken we de WAKEUP_ANY_HIGH-methode, die de ESP32 activeert wanneer de GPIO-pin hoog wordt.
 
-We add a 10 second delay before going to sleep. To put the ESP32 into deep sleep, you just need to use the deepsleep() method as follows:
+De hoofdcode voor het uitvoeren van een taak moet na het definiëren van de wekbron en vlak voor het in slaapstand gaan worden geplaatst.
+
+We voegen een vertraging van 10 seconden toe voordat we naar de slaapstand gaan. Om de ESP32 in de diepe slaapstand te zetten, hoeft u alleen de deepsleep()-methode te gebruiken zoals hieronder weergegeven:
 
 ```python
 machine.deepsleep()
@@ -80,17 +80,32 @@ machine.deepsleep()
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
-Opdracht1: ESP32 als SPI Master en een 8bit GPIO slave.
+Opdracht1: ESP32 in deepsleep en wakeup op basis van tijd.
 <ul style="color: white;">
-<li>Voor een ontwerp met een ESP32 feather van Adafruit heeft men te weinig uitgangen en wil men deze uitbreiden met een MCP23S09.</li>
-<li>Bouw een schema met de ESP32 feather van Adafruit, de ESP32 shield en een MCP23S09 waarbij men de toestand van 2 drukknoppen op de shield weergeeft op 2 leds die aangesloten zijn op de IO-expander.</li>
-<li>Sluit 2 rode leds aan met een voorschakelweerstand. Zorg dat de stroom door de leds niet groter wordt dan 5mA. Bereken zelf de voorschakelweerstand.</li>
-<li>Sluit een led aan op GP0 en op GP7.</li>
-<li>Gebruik SW1 en SW4 van de ESP32 shield.</li>
-<li>Als de drukknop SW1 wordt ingedrukt moet de led op GP0 branden. Als SW1 wordt ingedrukt niet is ingedrukt moet GP0 niet branden.</li>
-<li>Als de drukknop SW4 wordt ingedrukt moet de led op GP7 branden. Als SW4 wordt ingedrukt niet is ingedrukt moet GP7 niet branden.</li>
-<li>Men gebruikt wel SPI maar de adressen moeten hier ook juist aangesloten zijn. Zowel hardwarematig als softwarematig.</li>
-<li>Bouw, programmeer en test</li>
+<li>Breng de ESP32 in een cyclus van 20 seconden werken (laat een LED knipperen op een frequentie van 50Hz).</li>
+<li>Na deze cyclus gaat de ESP32 voor 20 seconden in een deepsleep, waarna de cyclus zich herhaalt.</li>
+<li>Meet het stroomverbruik van de microcontroller, eens in werkmodus en eens in slaapmodus. Wat zijn die waarden? Wat is het totaal vermogen in deze twee toestanden?</li>
+</ul>
+</p>
+</div>
+
+<div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
+<p style="color:lightgreen; margin:10px">
+Opdracht2: ESP32 in deepsleep en wakeup op basis van GPIO.
+<ul style="color: white;">
+<li>Gebruik twee digitale ingangen (drukknoppen). De ene kan de ESP32 in een deepsleep modus brengen, de andere kan de ESP32 terug wakker maken. </li>
+<li>Als de ESP32 wakker is knippert er een LED op een fraquentie van 10Hz.</li>
+<li>Meet het stroomverbruik van de microcontroller, eens in werkmodus en eens in slaapmodus. Wat zijn die waarden? Wat is het totaal vermogen in deze twee toestanden?</li>
+</ul>
+</p>
+</div>
+
+<div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
+<p style="color:lightgreen; margin:10px">
+Opdracht3: ESP32 in deepsleep en wakeup op basis van tijd.
+<ul style="color: white;">
+<li>Maak een toepassing die de omgevingstemperatuur meet en die om de 20 seconden die meetwaarde print op de console. </li>
+<li>Intussentijd zit de microcontroller in een deepsleep.</li>
 </ul>
 </p>
 </div>
