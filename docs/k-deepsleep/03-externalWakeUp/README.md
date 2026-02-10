@@ -89,6 +89,8 @@ Opdracht1: ESP32 in deepsleep en wakeup op basis van tijd.
 </p>
 </div>
 
+-
+
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
 Opdracht2: ESP32 in deepsleep en wakeup op basis van GPIO.
@@ -99,6 +101,8 @@ Opdracht2: ESP32 in deepsleep en wakeup op basis van GPIO.
 </ul>
 </p>
 </div>
+
+-
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
