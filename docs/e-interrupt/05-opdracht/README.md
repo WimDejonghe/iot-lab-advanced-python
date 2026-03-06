@@ -8,7 +8,7 @@ mathjax:
 ![Visualisatie van de opdracht.](./images/vb.png)
 
 :::warning
-Op dit probleem op te lossen zal er nood zijn aan een globale variabele waarmee in meerdere functies (methoden) zal moeten worden gewerkt.
+Om dit probleem op te lossen zal er nood zijn aan een globale variabele waarmee in meerdere functies (methoden) zal moeten worden gewerkt.
 Een voorbeeld van het gebruik van een globale variabele wordt in volgende code weergegeven
 :::
 
