@@ -25,8 +25,19 @@ Standaard gebruikt de Thonny-IDE een virtuele seriële communicatie over de USB-
 > :bulb: **Opmerking:** Om via pinnen op de headers een seriële communicatie op te zetten (bijvoorbeeld om twee ESP32's met bedrading met elkaar te laten communiceren) is er nood om een bibliotheek bij te installeren. Zie verder
 
 
-> [!NOTE]  Als er een python script in Thonny wordt uitgevoerd (moet niet op de ESP32 als bestand aanwezig zijn, moet wel runnen), kan er data via de USB UART0 uitgewisseld tussen de computer (ander programma dan Thonny, zoals RealTerm of Node Red) en de ESP32. Sluit hiervoor Thonny af nadat er op de RUN knop is gedrukt. Het script blijft draaien op de ESP32. Natuurlijk bij een reset start het script niet meer op.
+::: warning
+Als er een python script in Thonny wordt uitgevoerd (script moet niet op de ESP32 als bestand aanwezig zijn maar moet wel runnen), kan er data via de USB UART0 uitgewisseld tussen de computer (ander programma dan Thonny, zoals RealTerm, Node Red, ...) en de ESP32. De COM-poort van de laptop kan door het operating systeem worden vrijgegeven (wordt dan niet meer gebruikt door Thonny), door in Thonny de verbinding met die COM-poort te verbreken nadat er op de RUN knop (in Thonny) is gedrukt. Het script blijft draaien op de ESP32. Natuurlijk bij een reset start het script niet meer op. De verbinding kan volgens de volgende figuur worden verbroken:
+:::
 
+![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/thonny.png)
+
+Klik op de streepjes rechtsonderaan in het scherm van Thonny en selecteer de lokale Python optie van Thonny. Dus niet meer de MicroPython van de ESP32.
+
+![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/thonny1.png)
+
+![De digitale IO-pinnen van de Adafruit Huzzah ESP32 feather.](./images/thonny2.png)
+
+Nu is de COM-poort vrij voor andere laptop-programma's en er is runtime op de ESP32 van de laatst geactiveerde python code.
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
