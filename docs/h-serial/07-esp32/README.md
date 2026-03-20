@@ -39,6 +39,12 @@ Klik op de streepjes rechtsonderaan in het scherm van Thonny en selecteer de lok
 
 Nu is de COM-poort vrij voor andere laptop-programma's en er is runtime op de ESP32 van de laatst geactiveerde python code.
 
+> :warning: **Warning:** Indien vorige toch niet lukt, dan zit er niets anders op dan de MicroPython code vast in de ESP32 te programmeren.  
+
+> :memo: **Note:** Dit doe je door uw code dan lokaal op te slaan in de ESP32 onder de bestandsnaam `boot.py` Hiermee zal uw ESP32 steeds opstarten met deze code.
+
+> :bulb: **Tip:** Is het nodig om terug in de Python prompt te werken dan is een herinstallatie van de MicroPython noodzakelijk, zie hiervoor de handleiding : [Link](https://iot-lab-basic-python.netlify.app/) 
+
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
 Opdracht: Voltmeter
