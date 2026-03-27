@@ -204,6 +204,8 @@ Opdracht: Blokgolf met interrupt timers (1kHz)
 </p>
 </div>
 
+> :memo: **Note:** In plaats van `period` als parameter te gebruiken kan er ook gebruikt gemaakt worden van `freq` als parameter waarbij de waarde dan de frequentie is (hoeveel keer per seconde de timer afloopt).
+
 
 
 
