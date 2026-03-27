@@ -35,12 +35,16 @@ while True:
     uart1.write(f"{teller1}\r\n")
     sleep(0.1)
     if uart1.any():
-        gelezen = uart1.readline() 
+        gelezen = uart1.readline()
+        #tekst = gelezen.decode('utf-8').strip()
         tekst = gelezen.decode()
-        teller2=int(tekst)
-        teller2 = (teller2 * 2)/100.0
-        print ('Teller 1= ',teller1, ' Teller 2= ', teller2)
-        teller1 += 1
+        try: 
+            teller2=int(tekst)
+            teller2 = (teller2 * 2)/100.0
+            print ('Teller 1= ',teller1, ' Teller 2= ', teller2)
+            teller1 += 1
+        except ValueError:
+            print("Geen geldig getal:", tekst)
     sleep(1)
     led.value(not led.value())
 
