@@ -41,7 +41,7 @@ Nu is de COM-poort vrij voor andere laptop-programma's en er is runtime op de ES
 
 > :warning: **Warning:** Indien vorige toch niet lukt, dan zit er niets anders op dan de MicroPython code vast in de ESP32 te programmeren.  
 
-> :memo: **Note:** Dit doe je door uw code dan lokaal op te slaan in de ESP32 onder de bestandsnaam `boot.py` Hiermee zal uw ESP32 steeds opstarten met deze code.
+> :memo: **Note:** Dit doe je door uw code dan lokaal op te slaan in de ESP32 onder de bestandsnaam `main.py` Hiermee zal uw ESP32 steeds opstarten met deze code.
 
 > :bulb: **Tip:** Is het nodig om terug in de Python prompt te werken dan is een herinstallatie van de MicroPython noodzakelijk, zie hiervoor de handleiding : [Link](https://iot-lab-basic-python.netlify.app/) 
 
