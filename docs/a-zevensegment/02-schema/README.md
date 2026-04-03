@@ -7,7 +7,7 @@ In deze bundel gaan we de 7-segment display met referentie SC56-11EWA (KingBrigh
 
 ![KingBright: SC56-11EWA: 14.22 mm (0.56 inch) Single Digit Numeric Display.](./images/layout.png)
 
-De pinnummering begint bij de meeste IC’s (=Integrated Circuits) links boven. Bekijk dit component in vorige figuur heel goed en herken de pinnummering. In het schema met LED-dioden kan worden nagegaan welk LED-segment de pinnummering overeenkomt.
+De pinnummering begint bij de meeste IC’s (=Integrated Circuits) links boven. Bekijk deze component in vorige figuur heel goed en herken de pinnummering. In het schema met LED-dioden kan worden nagegaan welk LED-segment de pinnummering overeenkomt.
 
 We weten dat een 7-segment display bestaat uit 7 langwerpige leds die de 7 segmenten vormen. Bij dit display is er nog 1 segment of leds die gebruikt kunnen worden als punt of komma (DP = decimale punt).
 
@@ -23,7 +23,7 @@ voorschakelweerstand R1.
 
 <div style="background-color:darkgreen; text-align:left; vertical-align:left; padding:15px;">
 <p style="color:lightgreen; margin:10px">
-Opdracht: Bereken de waarde van weerstand R1. Kies dan een weerstand uit de E12-reeks die je praktisch gaatgebruiken.
+Opdracht: Bereken de waarde van weerstand R1. Kies dan een weerstand uit de E12-reeks die je praktisch gaat gebruiken.
 </p>
 </div>
 

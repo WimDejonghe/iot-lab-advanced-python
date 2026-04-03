@@ -22,18 +22,3 @@ De RS232 standaard definieert de signaalniveaus die overeenkomen met een logisch
 ![RS232-signaalniveau’s.](./images/Us.png)
 
 Deze symmetrische spanning, die dus nooit 0 volt kan worden biedt een grotere storings-ongevoeligheid dan klassieke TTL-signalen. Dit maakt dat RS232 over grotere afstanden data kan overdragen. Afhankelijk van de gebruikte voeding worden veelal signaalniveaus van ±5V, ±10V, ±12V en ±15V gebruikt. Ook de snelheid waarmee de signalen moeten veranderen (stijg- en daaltijd of slew-rate) is vastgelegd in de norm.
-
-
-
-
-
-
-
-
-
-
-:warning: **Warning:** Do not push the big red button.
-
-> :memo: **Note:** Sunrises are beautiful.
-
-> :bulb: **Tip:** Remember to appreciate the little things in life.

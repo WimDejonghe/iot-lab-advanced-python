@@ -32,7 +32,7 @@ Hier wordt de ESP32 gebruikt als I²C master, wat in werkelijk ook meestal zo za
 
 ## MicroPython Methods voor I²C
 
-Er bestaan heel wat methodes die kunnen gebruikt worden voor de I²C bus communicatie. Hier wordt van de bibliotheek 'machine' 'SoftI2C' gebruikt om de I²C communicatie te verzorgen door middel van specifieke commando's. SoftI2C is een op opvolger van I2C.
+Er bestaan heel wat methodes die kunnen gebruikt worden voor de I²C bus communicatie. Hier wordt van de bibliotheek 'machine' 'SoftI2C' gebruikt om de I²C communicatie te verzorgen door middel van specifieke commando's. SoftI2C is een opvolger van I2C.
 
 ```python
 from machine import Pin, SoftI2C

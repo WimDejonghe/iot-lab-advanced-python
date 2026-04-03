@@ -46,7 +46,7 @@ while True:
 
 In het hoofdprogramma (oneindige loop) wordt een *for-loop* gemaakt die opeenvolgend de getallen 0 tem 9 zal genereren. Dit getal komt in de variabele x te zitten. De eigen methode zal telkens worden aangeroepen waarbij het getal (die in de x-variabele zit) wordt meegegeven. Door dit doorgeefmechanisme wordt de inhoud van x doorgegeven aan de parameter (wat ook een variabele is met de naam pCijfer). x geeft dus zijn waarde door aan pCijfer.  
 
-Binnen de eigen methoide zal pCijfer worden geanaliseerd en wordt er gekeken welke waarde er in die variabele zit. Op basis van die waarde zullen de respectievelijke zevensegment pinnen wworden aangestuurd. Tussen de haakjes ‘()’ staan er maar één parameter. Dit wil zeggen dat er maar 1 waarde zal worden meegegeven aan die methode die in de methode gebruikt zal worden. Dit kunnen er ook meerdere zijn.
+Binnen de eigen methode zal pCijfer worden geanalyseerd en wordt er gekeken welke waarde er in die variabele zit. Op basis van die waarde zullen de respectievelijke zevensegment pinnen worden aangestuurd. Tussen de haakjes ‘()’ staan er maar één parameter. Dit wil zeggen dat er maar 1 waarde zal worden meegegeven aan die methode die in de methode gebruikt zal worden. Dit kunnen er ook meerdere zijn.
 
 Het tweede grote deel is de loop-routine. Dit is waar er allerlei bewerkingen worden uitgevoerd. In de loop-methode wordt de methode ***ZevenSegmentDisplayMetParameters(x)*** aangeroepen. Bij de aanroep worden de parameters meegegeven. Bij de aanroep wordt er gesprongen naar de methode en wordt deze uitgevoerd.
 

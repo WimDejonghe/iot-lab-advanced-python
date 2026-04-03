@@ -26,7 +26,7 @@ Een reden waarom SPI zo populair is komt doordat de ontvangende hardware heel ee
 Dit ziet er op het eerste zicht eenvoudig uit voor de verzendende data. Maar hoe zit dit in elkaar voor de ontvangende data als je bi-directioneel wil werken? Het terugsturen van data zit iets complexer in elkaar.
 Bij SPI zal de master de klok genereren die wordt aangegeven door CLK of SCK (= Serial ClocK). Er is steeds één en slechts één master op de bus aanwezig. Meestal is dit de gebruikte microprocessor of microcontroller. Het is duidelijk dat er hier meerdere slaves zich op de bus kunnen bevinden zoals in de volgende figuur. Dit wil zeggen dat het een point to multipoint communicatie is omdat de data gaat van 1 punt (=de master) naar meerdere punten (= de slaves).
 Wanneer er data wordt verzonden van de master naar een slave, dan wekt de master een kloksignaal op. Op het ritme van dit kloksignaal wordt de data verzonden via de MOSI (Master Out/ Slave In) lijn.
-Als de data van een slave wordt verzonden naar een master dan genereert de master het kloksignaal en plaatst da slave de data op de MISO-lijn (Master In/ Slave Out).
+Als de data van een slave wordt verzonden naar een master dan genereert de master het kloksignaal en plaatst de slave de data op de MISO-lijn (Master In/ Slave Out).
 
 ![De data bij SPI.](./images/dc.png)
 

@@ -10,7 +10,7 @@ Het komt zeer veel voor dat wanneer we een seriële communicatie willen opzetten
 Vooraleer we dit laten doen door een applicatie, kunnen we daar als test een terminal programma voor gebruiken. Dit wordt zeer veel gedaan bij de ontwikkeling van systemen en is dus een uiterst belangrijke stap in de ontwikkeling van een werkend systeem.
 
 :::tip
-Een terminal applicatie wordt veel gebruikt als Debug-tool. Veel IDE ontwikkelapplicaties voor microprocessoren bezitten niet de mogelijkheden om code te debuggen (tijdelijk onderbreken van de code en step by step mogelijkheden). Als alternatief kunnen tijdelijk waarden of toestanden van variabelen weggeschreven worden naar een termina applicatie. 
+Een terminal applicatie wordt veel gebruikt als Debug-tool. Veel IDE ontwikkelapplicaties voor microprocessoren bezitten niet de mogelijkheden om code te debuggen (tijdelijk onderbreken van de code en step by step mogelijkheden). Als alternatief kunnen tijdelijk waarden of toestanden van variabelen weggeschreven worden naar een terminal applicatie. 
 :::
 
 Er bestaan wel meer dergelijke programma's. De verzamelnaam voor die programma's is een terminal programma of editor. Voorbeelden zijn Putty of RealTerm. In de ontwikkelomgeving Visual Studio Code wordt dit de serial monitor genoemd zoals in vorige hoofdstukken al gebruikt. De serial monitor is verbonden met UART0 van de ESP32 feather van Adafruit.

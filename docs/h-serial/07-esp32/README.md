@@ -19,7 +19,7 @@ De ESP32 feather van Adafruit kan enkel UART0 en UART2 gebruikt worden. UART0 is
 ## print - input (UART0 = virtuele USB UART)
 
 :::warning
-Standaard gebruikt de Thonny-IDE een virtuele seriële communicatie over de USB-kabel om code/data over te brengen. Ook de statements `print` en `input`gebruiken diezelfde seriele poort. Dit gebeurt via UART0. Deze is verbonden met de pinnen 1 en 3 van de ESP32. Let wel deze pinnen zijn niet beschikbaar op de headers. Er kunnen zich problemen voordoen met de communicatie tussen Thonny en de ESP32 als er code wordt geschreven die impact heeft op die pinnen. Let dus op. Standaard Baudrate is ***115200***!! Andere snelheden liggen in standaarden vast, daar zijn: 300, 600, 1200, 2400, 4800, 9600, 13400, 19200, 28800, 31250, 38400, 57600, 115200
+Standaard gebruikt de Thonny-IDE een virtuele seriële communicatie over de USB-kabel om code/data over te brengen. Ook de statements `print` en `input`gebruiken diezelfde seriële poort. Dit gebeurt via UART0. Deze is verbonden met de pinnen 1 en 3 van de ESP32. Let wel deze pinnen zijn niet beschikbaar op de headers. Er kunnen zich problemen voordoen met de communicatie tussen Thonny en de ESP32 als er code wordt geschreven die impact heeft op die pinnen. Let dus op. Standaard Baudrate is ***115200***!! Andere snelheden liggen in standaarden vast, daar zijn: 300, 600, 1200, 2400, 4800, 9600, 13400, 19200, 28800, 31250, 38400, 57600, 115200
 :::
 
 > :bulb: **Opmerking:** Om via pinnen op de headers een seriële communicatie op te zetten (bijvoorbeeld om twee ESP32's met bedrading met elkaar te laten communiceren) is er nood om een bibliotheek bij te installeren. Zie verder
@@ -110,7 +110,7 @@ uart1.read(5) #read up to 5 bytes
 
 Vervolgens zal de poort in de setup-routine ingesteld moeten worden door de begin methode op te roepen.
 
-Een verder studie omtrent seriële communicatie (alle bruikbare methodes) kan gevonden worden bij de informatie over microPython en dit sepecifiek hier op: [MicroPython UART](https://docs.micropython.org/en/latest/library/machine.UART.html#machine.UART)
+Een verdere studie omtrent seriële communicatie (alle bruikbare methodes) kan gevonden worden bij de informatie over microPython en dit specifiek hier op: [MicroPython UART](https://docs.micropython.org/en/latest/library/machine.UART.html#machine.UART)
 
 
 

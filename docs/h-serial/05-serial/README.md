@@ -61,7 +61,7 @@ De pariteit-bit wordt in vorige figuur voorgesteld door het blokje met de oranje
 :
 ### Stop-bit (Sp)
 
-De stop-bit geeft aan dat er gestopt wordt met zenden. Een stop-bit kan 1, anderhalve of twee bit-lengtes duren. (3 mogelijkheden). Meestal is het gewoon 1 stop-bit. (3 keuzemogelijkheden). Vroeger werd er 1,5 en 2 stopbits gebruikt om de ontvager meer verwerkingstijd te geven. Door de snelle controllers van vandaag is dit niet meer nodig.
+De stop-bit geeft aan dat er gestopt wordt met zenden. Een stop-bit kan 1, anderhalve of twee bit-lengtes duren. (3 mogelijkheden). Meestal is het gewoon 1 stop-bit. (3 keuzemogelijkheden). Vroeger werd er 1,5 en 2 stopbits gebruikt om de ontvanger meer verwerkingstijd te geven. Door de snelle controllers van vandaag is dit niet meer nodig.
 Bij serieel-TTL is de stop-bit altijd gelijk aan 0V. Bij RS232 zal het signaal een spanning aannemen tussen +3V en +15V.
 De stop-bit wordt in de vorige figuur voorgesteld door het blokje met de groene letters ‘Sp’.
 

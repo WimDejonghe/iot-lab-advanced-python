@@ -24,7 +24,7 @@ Het is een synchroon protocol. Dit wil zeggen dat de master een kloksignaal voor
 
 ![Voorstelling van een synchrone seriële communicatie.](./images/ser.png)
 
-Er is maar één datalijn maar de data kan door de master verstuurd worden naar de slave, maar de data kan ook in de richting van de slave naar de master gaan. Men noemt dit een half-duplex verbinding. De communicatie kan in twee richting verlopen maar niet op hetzelfde moment.
+Er is maar één datalijn, maar de data kan door de master verstuurd worden naar de slave, of de data kan ook in de richting van de slave naar de master gaan. Men noemt dit een half-duplex verbinding. De communicatie kan in twee richtingen verlopen maar niet op hetzelfde moment.
 Een simplex verbinding is als de communicatie van de data maar in één enkele richting kan gaan (van zender naar ontvanger)
 Een full-duplexverbinding is als de communicatie in twee richtingen kan gaan en dat op hetzelfde moment.
 
@@ -39,7 +39,7 @@ I²C is oorspronkelijk in 1982 door Philips ontwikkeld voor verschillende Philip
 
 Naast de originele I²C introduceerde Intel in 1995 hierop een variant: "System Management Bus" (SMBus). SMBus is een strakker gecontroleerd formaat, bedoeld om de voorspelbaarheid van communicatie tussen ondersteunende IC's op pc-moederborden te maximaliseren.
 
-Het belangrijkste verschil tussen SMBus is dat het snelheden beperkt van 10 kHz tot 100 kHz, terwijl I²C apparaten van 0 kHz tot 5 MHz ondersteunt. SMBus bevat een klok-timeoutmodus die operaties met een lage snelheid onwettig maakt, hoewel veel SMBus-apparaten het toch zullen ondersteunen om de interoperabiliteit met ingesloten I²C-systemen te maximaliseren.
+Het belangrijkste verschil tussen SMBus is dat het snelheden beperkt van 10 kHz tot 100 kHz, terwijl I²C apparaten van 0 kHz tot 5 MHz ondersteunt. SMBus bevat een klok-timeoutmodus die operaties met een lage snelheid ongeldig maakt, hoewel veel SMBus-apparaten het toch zullen ondersteunen om de interoperabiliteit met ingesloten I²C-systemen te maximaliseren.
 
 ## Hardware
 
@@ -69,7 +69,7 @@ Vanaf nu zal er data worden uitgewisseld (5). Dit noemt men een gegevensframe. A
 
 ### Start conditie
 
-Om het adresframe te initiëren, brengt de master de SDA laaghoog en trekt dan SCL laag.
+Om het adresframe te initiëren stuurt de master een laag op de SDA-lijn (dalende flank) en trekt vervolgens de SCL-lijn laag (dalende flank).
 
 ![Startconditie bij I²C.](./images/start.png)
 
@@ -98,7 +98,7 @@ Na een verstuurd adres zal de slave een bevestiging sturen door de SDA-lijn laag
 
 ### Dataframe + Ack/Nack-bit
 
-Als de master data wil schrijven zal de master de data op de SDA-lijn plaatsen. De snelheid van communiceren wordt weergegeven door het kloksignaal dat de master genereerd. Nadat de 8 bits verstuurd zijn zal de slave het ontvangen bevestigen. Als de slave de data goed heeft ontvangen zal hij een 0 versturen.
+Als de master data wil schrijven zal de master de data op de SDA-lijn plaatsen. De snelheid van communiceren wordt weergegeven door het kloksignaal dat de master genereert. Nadat de 8 bits verstuurd zijn zal de slave het ontvangen bevestigen. Als de slave de data goed heeft ontvangen zal hij een 0 versturen.
 
 ![dataframe bij I²C.](./images/Dframe.png)
 
